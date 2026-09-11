@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="cabecera(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/componentes.css}">
+</head>
+<body>
+    <nav class="cabecera" th:fragment="menu">
+        <div class="navegacion">
+            <span class="navegacion__marca">Pagos Públicos</span>
+            <a class="navegacion__enlace" th:href="@{/}">Inicio</a>
+            <a class="navegacion__enlace" th:href="@{/terceros}">Terceros</a>
+        </div>
+    </nav>
+</body>
+</html>

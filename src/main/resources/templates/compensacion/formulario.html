@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva compensación - Pagos Públicos</title>
+</head>
+<body>
+    <a th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones'}">← Volver a compensaciones</a>
+    <h1>Nueva compensación — <span th:text="${tercero.razonSocial}"></span></h1>
+
+    <!-- Todos los errores (negocio y de campo) visibles arriba -->
+    
+
+    <form th:action="@{'/terceros/' + ${tercero.id} + '/compensaciones'}"
+          th:object="${form}" method="post">
+
+        <div th:if="${#fields.hasErrors('*')}" style="color: red; border: 1px solid red; padding: 10px;">
+            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+        </div>
+
+        <h2>1. Montos a aplicar por documento</h2>
+        <p>Captura el monto en los documentos que participan. Deja vacío los que no.
+           La suma de CxC debe ser igual a la suma de CxP.</p>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Folio</th>
+                    <th>Saldo disponible</th>
+                    <th>Monto a aplicar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="doc, stat : ${documentos}">
+                    <td th:text="${doc.tipo}"></td>
+                    <td th:text="${doc.folio}"></td>
+                    <td th:text="${#numbers.formatDecimal(doc.saldoPendiente, 1, 2)}"></td>
+                    <td>
+                        <input type="hidden"
+                               th:field="*{lineas[__${stat.index}__].documentoId}"
+                               th:value="${doc.id}" />
+                        <input type="text"
+                               th:field="*{lineas[__${stat.index}__].monto}"
+                               th:placeholder="${#numbers.formatDecimal(doc.saldoPendiente, 1, 2)}" />
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(documentos)}">
+                    <td colspan="4">Este tercero no tiene documentos vigentes para compensar.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Saldo residual (opcional)</h2>
+        <div>
+            <label for="saldoResidual">Saldo residual a liquidar/cobrar</label><br>
+            <input type="text" id="saldoResidual" th:field="*{saldoResidual}" placeholder="0.00">
+        </div>
+        <div>
+            <label for="cuentaBancariaId">Cuenta bancaria (obligatoria si hay residual)</label><br>
+            <select id="cuentaBancariaId" th:field="*{cuentaBancariaId}">
+                <option value="">— Ninguna —</option>
+                <option th:each="c : ${cuentas}"
+                        th:value="${c.id}"
+                        th:text="${c.banco + ' — ' + c.titular}"></option>
+            </select>
+        </div>
+
+        <h2>3. Observaciones (opcional)</h2>
+        <div>
+            <textarea th:field="*{observaciones}" rows="3" cols="50"></textarea>
+        </div>
+
+        <br>
+        <button type="submit" th:disabled="${#lists.isEmpty(documentos)}">Aplicar compensación</button>
+    </form>
+</body>
+</html>

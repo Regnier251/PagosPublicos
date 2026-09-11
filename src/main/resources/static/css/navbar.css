@@ -1,0 +1,67 @@
+/* ============================================================
+   navbar.css — Barra superior global (navbar) y barra de
+   pestañas del tercero seleccionado.
+   ============================================================ */
+
+/* ---------- Navbar global (todas las páginas) ---------- */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.navbar__interior {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.navbar__marca { font-weight: 700; font-size: 1.05rem; color: #1e3a8a; }
+.navbar__enlace { color: #64748b; font-weight: 500; }
+.navbar__enlace:hover { color: #1e3a8a; text-decoration: none; }
+
+/* ---------- Barra de pestañas del tercero (páginas anidadas) ---------- */
+.barra-tercero {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.barra-tercero__interior {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+}
+
+.barra-tercero__identidad {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-top: 0.75rem;
+}
+
+.barra-tercero__nombre { font-weight: 700; }
+.barra-tercero__rfc { font-size: 0.8rem; color: #64748b; }
+
+.barra-tercero__pestanas { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+
+.barra-tercero__pestana {
+    padding: 0.6rem 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.925rem;
+    border-bottom: 2px solid transparent;
+}
+.barra-tercero__pestana:hover { color: #1e3a8a; text-decoration: none; }
+.barra-tercero__pestana--activa {
+    color: #1e3a8a;
+    border-bottom-color: #1e3a8a;
+    font-weight: 600;
+}

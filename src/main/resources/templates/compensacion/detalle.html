@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${compensacion.folio}">Compensación</title>
+</head>
+<body>
+    <a th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones'}">← Volver a compensaciones</a>
+    <h1 th:text="${compensacion.folio}"></h1>
+
+    <table>
+        <tr><th>Tercero</th><td th:text="${tercero.razonSocial}"></td></tr>
+        <tr><th>Monto compensado</th>
+            <td th:text="${#numbers.formatDecimal(compensacion.montoCompensado, 1, 2)}"></td></tr>
+        <tr><th>Saldo residual</th>
+            <td th:text="${#numbers.formatDecimal(compensacion.saldoResidual, 1, 2)}"></td></tr>
+        <tr><th>Cuenta de liquidación</th>
+            <td th:text="${compensacion.cuentaBancaria != null} ?
+                ${compensacion.cuentaBancaria.banco + ' — ' + compensacion.cuentaBancaria.clabe} : '—'"></td></tr>
+        <tr><th>Observaciones</th><td th:text="${compensacion.observaciones}"></td></tr>
+        <tr><th>Estatus</th><td th:text="${compensacion.estatus}"></td></tr>
+    </table>
+
+    <h2>Documentos involucrados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Folio</th>
+                <th>Monto aplicado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="linea : ${lineas}">
+                <td th:text="${linea.documento.tipo}"></td>
+                <td th:text="${linea.documento.folio}"></td>
+                <td th:text="${#numbers.formatDecimal(linea.montoAplicado, 1, 2)}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

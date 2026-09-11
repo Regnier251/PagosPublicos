@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuentas bancarias - Pagos Públicos</title>
+</head>
+<body>
+    <a th:href="@{/terceros}">← Volver a Terceros</a>
+    <h1>Cuentas bancarias — <span th:text="${tercero.razonSocial}"></span></h1>
+
+    <p th:if="${exito}" th:text="${exito}"></p>
+
+    <a th:href="@{'/terceros/' + ${tercero.id} + '/cuentas/nuevo'}">+ Nueva cuenta</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Banco</th>
+                <th>CLABE</th>
+                <th>Titular</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c : ${cuentas}">
+                <td th:text="${c.banco}"></td>
+                <td th:text="${c.clabe}"></td>
+                <td th:text="${c.titular}"></td>
+                <td th:text="${c.estatus}"></td>
+                <td>
+                    <a th:href="@{'/terceros/' + ${tercero.id} + '/cuentas/' + ${c.id} + '/editar'}">Editar</a>
+                    <form th:action="@{'/terceros/' + ${tercero.id} + '/cuentas/' + ${c.id} + '/cambiar-estatus'}"
+                          method="post" style="display:inline;">
+                        <button type="submit"
+                                th:text="${c.estatus.name() == 'ACTIVO'} ? 'Desactivar' : 'Activar'">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(cuentas)}">
+                <td colspan="5">Este tercero no tiene cuentas registradas aún.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

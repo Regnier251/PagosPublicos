@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Documento - Pagos Públicos</title>
+</head>
+<body>
+    <a th:href="@{'/terceros/' + ${tercero.id} + '/documentos'}">← Volver a documentos</a>
+
+    <h1 th:text="${documento.id != null} ? 'Editar documento' : 'Nuevo documento'"></h1>
+
+    <div th:if="${#fields.hasGlobalErrors()}"
+         th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}" style="color: red;"></div>
+
+    <form th:action="@{'/terceros/' + ${tercero.id} + '/documentos'}"
+          th:object="${documento}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div>
+            <label for="tipo">Tipo (CXC = por cobrar, CXP = por pagar)</label><br>
+            <select id="tipo" th:field="*{tipo}" th:disabled="${documento.id != null}">
+                <option value="" disabled>Seleccione...</option>
+                <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
+            </select>
+            <!-- En edición el select va disabled y no se envía; el hidden mantiene el valor -->
+            <input type="hidden" th:if="${documento.id != null}" th:field="*{tipo}" />
+            <span th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}" style="color: red;"></span>
+        </div>
+
+        <div>
+            <label for="folio">Folio</label><br>
+            <input type="text" id="folio" th:field="*{folio}" maxlength="50" required>
+            <span th:if="${#fields.hasErrors('folio')}" th:errors="*{folio}" style="color: red;"></span>
+        </div>
+
+        <div>
+            <label for="fechaEmision">Fecha de emisión</label><br>
+            <input type="date" id="fechaEmision" th:field="*{fechaEmision}">
+            <span th:if="${#fields.hasErrors('fechaEmision')}" th:errors="*{fechaEmision}" style="color: red;"></span>
+        </div>
+
+        <div>
+            <label for="fechaVencimiento">Fecha de vencimiento</label><br>
+            <input type="date" id="fechaVencimiento" th:field="*{fechaVencimiento}">
+            <span th:if="${#fields.hasErrors('fechaVencimiento')}" th:errors="*{fechaVencimiento}" style="color: red;"></span>
+        </div>
+
+        <div>
+            <label for="montoTotal">Monto total (MXN)</label><br>
+            <input type="text" id="montoTotal" th:field="*{montoTotal}" required>
+            <span th:if="${#fields.hasErrors('montoTotal')}" th:errors="*{montoTotal}" style="color: red;"></span>
+        </div>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

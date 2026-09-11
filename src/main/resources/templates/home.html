@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos Públicos - Inicio</title>
+    
+    <!-- Fuentes y CDN de Swiper CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Archivo CSS Local -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <header class="header">
+            <span class="badge">Titulo del proyecto</span>
+            <h1>Pagos Públicos</h1>
+            <p>Desliza para explorar los módulos disponibles</p>
+        </header>
+
+        <!-- Contenedor Principal del Carrusel -->
+        <div class="swiper moduleSwiper">
+            <div class="swiper-wrapper">
+                
+                <!-- Módulo 1 -->
+                <div class="swiper-slide">
+                    <a th:href="@{/compensacion}" class="module-card">
+                        <div class="card-header">
+                            <div class="card-icon">⚖️</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Compensación</h3>
+                            <p>Gestión y registros de compensaciones contables.</p>
+                        </div>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Módulo 2 -->
+                <div class="swiper-slide">
+                    <a th:href="@{/terceros}" class="module-card">
+                        <div class="card-header">
+                            <div class="card-icon">👥</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Terceros</h3>
+                            <p>Administración de clientes y proveedores.</p>
+                        </div>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Módulo 3 -->
+                <div class="swiper-slide">
+                    <a th:href="@{/tesoreria}" class="module-card">
+                        <div class="card-header">
+                            <div class="card-icon">🏦</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Tesorería</h3>
+                            <p>Control de flujo de caja y cuentas bancarias.</p>
+                        </div>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- Módulo 4 -->
+                <div class="swiper-slide">
+                    <a th:href="@{/reportes}" class="module-card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Reportes</h3>
+                            <p>Generación de balances y Estados Financieros.</p>
+                        </div>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Controles -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <!-- CDN de Swiper JS y Archivo JS Local -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

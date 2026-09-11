@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuenta bancaria - Pagos Públicos</title>
+</head>
+<body>
+    <a th:href="@{'/terceros/' + ${tercero.id} + '/cuentas'}">← Volver a cuentas</a>
+
+    <h1 th:text="${cuenta.id != null} ? 'Editar cuenta' : 'Nueva cuenta'"></h1>
+
+    <!-- Errores de negocio (CLABE duplicada, integridad) -->
+    <div th:if="${#fields.hasGlobalErrors()}"
+         th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}" style="color: red;"></div>
+
+    <form th:action="@{'/terceros/' + ${tercero.id} + '/cuentas'}"
+          th:object="${cuenta}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div>
+            <label for="banco">Banco</label><br>
+            <input type="text" id="banco" th:field="*{banco}" maxlength="100" required>
+            <span th:if="${#fields.hasErrors('banco')}" th:errors="*{banco}" style="color: red;"></span>
+        </div>
+
+        <div>
+            <label for="clabe">CLABE (18 dígitos, opcional)</label><br>
+            <input type="text" id="clabe" th:field="*{clabe}" maxlength="18">
+            <span th:if="${#fields.hasErrors('clabe')}" th:errors="*{clabe}" style="color: red;"></span>
+        </div>
+
+        <div>
+            <label for="titular">Titular</label><br>
+            <input type="text" id="titular" th:field="*{titular}" maxlength="255" required>
+            <span th:if="${#fields.hasErrors('titular')}" th:errors="*{titular}" style="color: red;"></span>
+        </div>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

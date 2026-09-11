@@ -1,0 +1,30 @@
+/* ============================================================
+   base.css — Estilos globales de todo el sitio:
+   reset, tipografía, fondo, enlaces y estructura de página.
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #0f172a;
+    min-height: 100vh;
+}
+
+a { color: #1e3a8a; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Estructura de páginas internas (no aplica al home) */
+.contenedor {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.pagina__titulo    { margin: 0 0 0.25rem; font-size: 1.5rem; }
+.pagina__subtitulo { margin: 0 0 1.5rem; color: #64748b; font-size: 0.95rem; }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Terceros - Pagos Públicos</title>
+</head>
+<body>
+    <a th:href="@{/}">← Inicio</a>
+    <h1>Terceros</h1>
+
+    <p th:if="${exito}" th:text="${exito}"></p>
+
+    <a th:href="@{/terceros/nuevo}">+ Nuevo tercero</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>RFC</th>
+                <th>Razón social</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="t : ${terceros}">
+                <td th:text="${t.rfc}"></td>
+                <td th:text="${t.razonSocial}"></td>
+                <td th:text="${t.estatus}"></td>
+                <td>
+                    <a th:href="@{'/terceros/' + ${t.id} + '/editar'}">Editar</a>
+                    <form th:action="@{'/terceros/' + ${t.id} + '/cambiar-estatus'}"
+                          method="post" style="display:inline;">
+                        <button type="submit"
+                                th:text="${t.estatus.name() == 'ACTIVO'} ? 'Desactivar' : 'Activar'">
+                        </button>
+                    </form>
+                    <a th:href="@{'/terceros/' + ${t.id} + '/cuentas'}">Cuentas</a>
+                    <a th:href="@{'/terceros/' + ${t.id} + '/documentos'}">Documentos</a>
+                    <a th:href="@{'/terceros/' + ${t.id} + '/compensaciones'}">Compensaciones</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(terceros)}">
+                <td colspan="4">No hay terceros registrados aún.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
