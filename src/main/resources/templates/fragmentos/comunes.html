@@ -41,12 +41,27 @@
     <script th:src="@{/js/alertas.js}" defer></script>
 </head>
 
+ <!-- Cabecera del módulo de archivos: SOLO la usa archivo/lista.html y archivo/subida.html -->
+<head th:fragment="cabecera-archivo(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/componentes.css}">
+    <link rel="stylesheet" th:href="@{/css/archivo-subida.css}">
+    <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
+    <script th:src="@{/js/alertas.js}" defer></script>
+</head>
+
 <body>
     <!-- Navbar global: la marca ES el enlace al inicio -->
     <nav class="navbar" th:fragment="menu">
         <div class="navbar__interior">
             <a class="navbar__marca" th:href="@{/}">Pagos Públicos</a>
             <a class="navbar__enlace" th:href="@{/terceros}">Terceros</a>
+            <a class="navbar__enlace" th:href="@{/archivos}">Archivos</a>
         </div>
     </nav>
 

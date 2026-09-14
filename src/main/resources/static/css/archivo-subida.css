@@ -1,0 +1,38 @@
+/* ============================================================
+   archivo-subida.css — EXCLUSIVO de archivo/lista.html:
+   zona de arrastre (drag & drop) para subir archivos ZIP.
+   ============================================================ */
+
+.zona-arrastre {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.zona-arrastre:hover { border-color: #1e3a8a; }
+
+/* Estado: archivo arrastrándose POR ENCIMA de la zona */
+.zona-arrastre--sobre {
+    border-color: #1e3a8a;
+    background-color: #eef2ff;
+    transform: scale(1.01);
+}
+
+/* Estado: subida en curso */
+.zona-arrastre--cargando {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: wait;
+}
+
+/* El contenido no captura el mouse: así dragleave solo se dispara
+   al salir REALMENTE de la zona, no al pasar sobre el texto/icono */
+.zona-arrastre__contenido { pointer-events: none; }
+
+.zona-arrastre__icono { font-size: 2.2rem; }
+.zona-arrastre__texto { font-weight: 600; margin-top: 0.5rem; color: #1e3a8a; }
+.zona-arrastre__ayuda { font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; }
+.zona-arrastre__archivo { font-size: 0.9rem; color: #15803d; margin-top: 0.5rem; font-weight: 600; }
