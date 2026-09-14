@@ -1,0 +1,55 @@
+/* ============================================================
+   compensacion-formulario.css — EXCLUSIVO de
+   compensacion/formulario.html: panel de totales del cruce
+   en vivo (Σ CxC vs Σ CxP) y estados de los inputs.
+   ============================================================ */
+
+.cruce-panel {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 0.9rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.95rem;
+}
+
+.cruce-panel__lado { display: flex; flex-direction: column; }
+
+.cruce-panel__etiqueta {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.04em;
+}
+
+.cruce-panel__valor {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.cruce-panel__igual {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.cruce-panel__mensaje { margin-left: auto; font-weight: 600; }
+
+.cruce-panel--ok { border-color: #15803d; background-color: #f0fdf4; }
+.cruce-panel--ok .cruce-panel__mensaje { color: #15803d; }
+
+.cruce-panel--error { border-color: #b91c1c; background-color: #fef2f2; }
+.cruce-panel--error .cruce-panel__mensaje { color: #b91c1c; }
+
+.cruce-panel--neutro .cruce-panel__mensaje { color: #64748b; }
+
+/* Input cuyo monto excede el saldo disponible del documento */
+.input-celda--excedido {
+    border-color: #b91c1c !important;
+    background-color: #fef2f2;
+}

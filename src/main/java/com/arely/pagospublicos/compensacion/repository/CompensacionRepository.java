@@ -10,5 +10,8 @@ import java.util.Optional;
 public interface CompensacionRepository extends JpaRepository<Compensacion, Long> {
 
     List<Compensacion> findByTerceroId(Long terceroId, Sort sort);
+
     Optional<Compensacion> findFirstByFolioStartingWithOrderByFolioDesc(String prefijo);
+
+    long countByTerceroId(Long terceroId);
 }

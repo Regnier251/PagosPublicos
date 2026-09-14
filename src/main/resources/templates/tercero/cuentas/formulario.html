@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Cuenta bancaria - Pagos Públicos</title>
-</head>
+<head th:replace="~{fragmentos/comunes :: cabecera('Cuenta bancaria')}"></head>
 <body>
-    <a th:href="@{'/terceros/' + ${tercero.id} + '/cuentas'}">← Volver a cuentas</a>
 
-    <h1 th:text="${cuenta.id != null} ? 'Editar cuenta' : 'Nueva cuenta'"></h1>
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+    <nav th:replace="~{fragmentos/comunes :: menu-tercero(${tercero}, 'cuentas')}"></nav>
 
-    <!-- Errores de negocio (CLABE duplicada, integridad) -->
-    <div th:if="${#fields.hasGlobalErrors()}"
-         th:each="err : ${#fields.globalErrors()}"
-         th:text="${err}" style="color: red;"></div>
+    <main class="contenedor">
+        <h1 class="pagina__titulo"
+            th:text="${cuenta.id != null} ? 'Editar cuenta' : 'Nueva cuenta'"></h1>
+        <p class="pagina__subtitulo"
+           th:text="${cuenta.id != null} ? 'Modifica los datos de la cuenta' : 'Registra una cuenta bancaria de ' + ${tercero.razonSocial}"></p>
 
-    <form th:action="@{'/terceros/' + ${tercero.id} + '/cuentas'}"
-          th:object="${cuenta}" method="post">
-        <input type="hidden" th:field="*{id}" />
+        <form th:action="@{'/terceros/' + ${tercero.id} + '/cuentas'}"
+              th:object="${cuenta}" method="post" style="max-width: 560px;">
+            <input type="hidden" th:field="*{id}" />
 
-        <div>
-            <label for="banco">Banco</label><br>
-            <input type="text" id="banco" th:field="*{banco}" maxlength="100" required>
-            <span th:if="${#fields.hasErrors('banco')}" th:errors="*{banco}" style="color: red;"></span>
-        </div>
+            <div class="errores-globales" th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+            </div>
 
-        <div>
-            <label for="clabe">CLABE (18 dígitos, opcional)</label><br>
-            <input type="text" id="clabe" th:field="*{clabe}" maxlength="18">
-            <span th:if="${#fields.hasErrors('clabe')}" th:errors="*{clabe}" style="color: red;"></span>
-        </div>
+            <div class="campo">
+                <label for="banco">Banco</label>
+                <input type="text" id="banco" th:field="*{banco}" maxlength="100"
+                       placeholder="Ej. BBVA, Banorte, Santander..." required>
+                <span class="error-campo" th:if="${#fields.hasErrors('banco')}"
+                      th:errors="*{banco}"></span>
+            </div>
 
-        <div>
-            <label for="titular">Titular</label><br>
-            <input type="text" id="titular" th:field="*{titular}" maxlength="255" required>
-            <span th:if="${#fields.hasErrors('titular')}" th:errors="*{titular}" style="color: red;"></span>
-        </div>
+            <div class="campo">
+                <label for="clabe">CLABE (18 dígitos, opcional)</label>
+                <input type="text" id="clabe" th:field="*{clabe}" maxlength="18"
+                       inputmode="numeric" placeholder="002180000000000000">
+                <span class="error-campo" th:if="${#fields.hasErrors('clabe')}"
+                      th:errors="*{clabe}"></span>
+            </div>
 
-        <button type="submit">Guardar</button>
-    </form>
+            <div class="campo">
+                <label for="titular">Titular de la cuenta</label>
+                <input type="text" id="titular" th:field="*{titular}" maxlength="255" required>
+                <span class="error-campo" th:if="${#fields.hasErrors('titular')}"
+                      th:errors="*{titular}"></span>
+            </div>
+
+            <div class="acciones">
+                <button type="submit" class="boton boton--primario">Guardar</button>
+                <a class="boton boton--secundario"
+                   th:href="@{'/terceros/' + ${tercero.id} + '/cuentas'}">Volver</a>
+            </div>
+        </form>
+    </main>
 </body>
 </html>

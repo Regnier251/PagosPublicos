@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Cuentas bancarias - Pagos Públicos</title>
-</head>
+<head th:replace="~{fragmentos/comunes :: cabecera('Cuentas bancarias')}"></head>
 <body>
-    <a th:href="@{/terceros}">← Volver a Terceros</a>
-    <h1>Cuentas bancarias — <span th:text="${tercero.razonSocial}"></span></h1>
 
-    <p th:if="${exito}" th:text="${exito}"></p>
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+    <nav th:replace="~{fragmentos/comunes :: menu-tercero(${tercero}, 'cuentas')}"></nav>
 
-    <a th:href="@{'/terceros/' + ${tercero.id} + '/cuentas/nuevo'}">+ Nueva cuenta</a>
+    <main class="contenedor">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <h1 class="pagina__titulo">Cuentas bancarias</h1>
+                <p class="pagina__subtitulo">Cuentas donde este tercero recibe depósitos</p>
+            </div>
+            <a class="boton boton--primario"
+               th:href="@{'/terceros/' + ${tercero.id} + '/cuentas/nuevo'}">+ Nueva cuenta</a>
+        </div>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Banco</th>
-                <th>CLABE</th>
-                <th>Titular</th>
-                <th>Estatus</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="c : ${cuentas}">
-                <td th:text="${c.banco}"></td>
-                <td th:text="${c.clabe}"></td>
-                <td th:text="${c.titular}"></td>
-                <td th:text="${c.estatus}"></td>
-                <td>
-                    <a th:href="@{'/terceros/' + ${tercero.id} + '/cuentas/' + ${c.id} + '/editar'}">Editar</a>
-                    <form th:action="@{'/terceros/' + ${tercero.id} + '/cuentas/' + ${c.id} + '/cambiar-estatus'}"
-                          method="post" style="display:inline;">
-                        <button type="submit"
-                                th:text="${c.estatus.name() == 'ACTIVO'} ? 'Desactivar' : 'Activar'">
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(cuentas)}">
-                <td colspan="5">Este tercero no tiene cuentas registradas aún.</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>Banco</th>
+                    <th>CLABE</th>
+                    <th>Titular</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${cuentas}">
+                    <td th:text="${c.banco}"></td>
+                    <td th:text="${c.clabe != null} ? ${c.clabe} : '—'"></td>
+                    <td th:text="${c.titular}"></td>
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(c.estatus)}"
+                              th:text="${c.estatus}"></span>
+                    </td>
+                    <td>
+                        <div class="acciones">
+                            <a class="boton boton--secundario"
+                               th:href="@{'/terceros/' + ${tercero.id} + '/cuentas/' + ${c.id} + '/editar'}">Editar</a>
+                            <form th:action="@{'/terceros/' + ${tercero.id} + '/cuentas/' + ${c.id} + '/cambiar-estatus'}"
+                                method="post" style="display: inline;"
+                                th:data-confirmar="${c.estatus.name() == 'ACTIVO'} ? '¿Desactivar esta cuenta?' : '¿Activar esta cuenta?'"
+                                th:data-confirmar-peligro="${c.estatus.name() == 'ACTIVO'} ? 'true' : null">
+                                
+                                <button type="submit" class="boton"
+                                        th:classappend="${c.estatus.name() == 'ACTIVO'} ? 'boton--peligro' : 'boton--secundario'"
+                                        th:text="${c.estatus.name() == 'ACTIVO'} ? 'Desactivar' : 'Activar'"></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="fila-vacia" th:if="${#lists.isEmpty(cuentas)}">
+                    <td colspan="5">Este tercero no tiene cuentas registradas aún.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>

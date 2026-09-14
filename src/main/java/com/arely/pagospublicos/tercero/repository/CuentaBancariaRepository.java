@@ -13,4 +13,6 @@ public interface CuentaBancariaRepository extends JpaRepository<CuentaBancaria, 
     boolean existsByClabe(String clabe);
 
     boolean existsByClabeAndIdNot(String clabe, Long id);
+
+    long countByTerceroId(Long terceroId);
 }

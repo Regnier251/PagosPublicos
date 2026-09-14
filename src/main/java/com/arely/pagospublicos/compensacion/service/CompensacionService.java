@@ -198,4 +198,9 @@ public class CompensacionService {
         int consecutivo = Integer.parseInt(ultimoFolio.substring(prefijo.length())) + 1;
         return prefijo + String.format("%05d", consecutivo);
     }
+    
+    public long contarPorTercero(Long terceroId) {
+        return compensacionRepository.countByTerceroId(terceroId);
+    }
+
 }

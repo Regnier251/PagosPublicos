@@ -109,3 +109,63 @@
 }
 .etiqueta--compensado { background-color: #e0e7ff; color: #1e3a8a; }
 .etiqueta--cancelado  { background-color: #fef2f2; color: #b91c1c; }
+
+/* ---------- Tarjetas de resumen (ficha del tercero) ---------- */
+.resumen-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.resumen-tarjeta {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+.resumen-tarjeta:hover {
+    border-color: #1e3a8a;
+    transform: translateY(-3px);
+    text-decoration: none;
+}
+.resumen-tarjeta__numero {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1e3a8a;
+}
+.resumen-tarjeta__titulo {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+/* ---------- SweetAlert2 (toasts y confirmaciones) ---------- */
+.swal2-popup { font-family: 'Inter', system-ui, sans-serif !important; }
+
+/* ---------- Inputs compactos dentro de tablas ---------- */
+.tabla .input-celda {
+    width: 140px;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-align: right;
+}
+.tabla .input-celda:focus {
+    outline: 2px solid #1e3a8a;
+    border-color: #1e3a8a;
+}
+
+/* ---------- Título de sección dentro de formularios largos ---------- */
+.seccion-titulo {
+    font-size: 1.05rem;
+    margin: 1.75rem 0 0.75rem;
+    color: #1e3a8a;
+}
+
+/* ---------- Etiquetas de tipo de documento ---------- */
+.etiqueta--cxc { background-color: #e0e7ff; color: #1e3a8a; }
+.etiqueta--cxp { background-color: #fef3c7; color: #b45309; }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/comunes :: cabecera('Tercero')}"></head>
+<body th:data-exito="${exito}">
+
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+    <nav th:replace="~{fragmentos/comunes :: menu-tercero(${tercero}, 'resumen')}"></nav>
+
+    <main class="contenedor">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <h1 class="pagina__titulo" th:text="${tercero.razonSocial}"></h1>
+                <p class="pagina__subtitulo">
+                    RFC: <span th:text="${tercero.rfc}"></span>
+                    &nbsp;
+                    <span class="etiqueta"
+                          th:classappend="${'etiqueta--' + #strings.toLowerCase(tercero.estatus)}"
+                          th:text="${tercero.estatus}"></span>
+                </p>
+            </div>
+            <form th:action="@{'/terceros/' + ${tercero.id} + '/cambiar-estatus'}" method="post"
+                    th:data-confirmar="${tercero.estatus.name() == 'ACTIVO'} ? '¿Desactivar este tercero? No podrá seleccionarse en nuevas operaciones.' : '¿Activar este tercero?'"
+                    th:data-confirmar-peligro="${tercero.estatus.name() == 'ACTIVO'} ? 'true' : null">
+                <button type="submit" class="boton"
+                        th:classappend="${tercero.estatus.name() == 'ACTIVO'} ? 'boton--peligro' : 'boton--secundario'"
+                        th:text="${tercero.estatus.name() == 'ACTIVO'} ? 'Desactivar tercero' : 'Activar tercero'">
+                </button>
+            </form>
+        </div>
+
+        <!-- Accesos directos con conteo real desde BD -->
+        <div class="resumen-tarjetas">
+            <a class="resumen-tarjeta" th:href="@{'/terceros/' + ${tercero.id} + '/cuentas'}">
+                <span class="resumen-tarjeta__numero" th:text="${totalCuentas}"></span>
+                <span class="resumen-tarjeta__titulo">Cuentas bancarias</span>
+            </a>
+            <a class="resumen-tarjeta" th:href="@{'/terceros/' + ${tercero.id} + '/documentos'}">
+                <span class="resumen-tarjeta__numero" th:text="${totalDocumentos}"></span>
+                <span class="resumen-tarjeta__titulo">Documentos (CxC / CxP)</span>
+            </a>
+            <a class="resumen-tarjeta" th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones'}">
+                <span class="resumen-tarjeta__numero" th:text="${totalCompensaciones}"></span>
+                <span class="resumen-tarjeta__titulo">Compensaciones</span>
+            </a>
+        </div>
+
+        <h2 style="margin-bottom: 0.75rem;">Datos generales</h2>
+        <table class="tabla" style="max-width: 640px;">
+            <tbody>
+                <tr>
+                    <th style="width: 40%;">RFC</th>
+                    <td th:text="${tercero.rfc}"></td>
+                </tr>
+                <tr>
+                    <th>Razón social</th>
+                    <td th:text="${tercero.razonSocial}"></td>
+                </tr>
+                <tr>
+                    <th>Estatus</th>
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(tercero.estatus)}"
+                              th:text="${tercero.estatus}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Creado</th>
+                    <td th:text="${#temporals.format(tercero.creadoEn, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th>Última modificación</th>
+                    <td th:text="${#temporals.format(tercero.actualizadoEn, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

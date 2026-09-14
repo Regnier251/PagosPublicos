@@ -81,4 +81,7 @@ public class CuentaBancariaService {
             throw new IllegalArgumentException("Ya existe una cuenta registrada con esa CLABE");
         }
     }
+    public long contarPorTercero(Long terceroId) {
+        return repository.countByTerceroId(terceroId);
+    }
 }

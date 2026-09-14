@@ -1,47 +1,60 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Compensaciones - Pagos Públicos</title>
-</head>
-<body>
-    <a th:href="@{/terceros}">← Volver a Terceros</a>
-    <h1>Compensaciones — <span th:text="${tercero.razonSocial}"></span></h1>
+<head th:replace="~{fragmentos/comunes :: cabecera('Compensaciones')}"></head>
+<body th:data-exito="${exito}" th:data-error="${error}">
 
-    <p th:if="${exito}" th:text="${exito}" style="color: green;"></p>
-    <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+    <nav th:replace="~{fragmentos/comunes :: menu-tercero(${tercero}, 'compensaciones')}"></nav>
 
-    <a th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones/nueva'}">+ Nueva compensación</a>
+    <main class="contenedor">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <h1 class="pagina__titulo">Compensaciones</h1>
+                <p class="pagina__subtitulo">Cruces de documentos CxC contra CxP de este tercero</p>
+            </div>
+            <a class="boton boton--primario"
+               th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones/nueva'}">+ Nueva compensación</a>
+        </div>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Folio</th>
-                <th>Monto compensado</th>
-                <th>Saldo residual</th>
-                <th>Estatus</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="c : ${compensaciones}">
-                <td th:text="${c.folio}"></td>
-                <td th:text="${#numbers.formatDecimal(c.montoCompensado, 1, 2)}"></td>
-                <td th:text="${#numbers.formatDecimal(c.saldoResidual, 1, 2)}"></td>
-                <td th:text="${c.estatus}"></td>
-                <td>
-                    <a th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones/' + ${c.id}}">Ver</a>
-                    <form th:if="${c.estatus.name() == 'APLICADA'}"
-                          th:action="@{'/terceros/' + ${tercero.id} + '/compensaciones/' + ${c.id} + '/cancelar'}"
-                          method="post" style="display:inline;">
-                        <button type="submit">Cancelar</button>
-                    </form>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(compensaciones)}">
-                <td colspan="5">No hay compensaciones registradas para este tercero.</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th class="numero">Monto compensado</th>
+                    <th class="numero">Saldo residual</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${compensaciones}">
+                    <td th:text="${c.folio}"></td>
+                    <td class="numero" th:text="${#numbers.formatDecimal(c.montoCompensado, 1, 2)}"></td>
+                    <td class="numero" th:text="${#numbers.formatDecimal(c.saldoResidual, 1, 2)}"></td>
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(c.estatus)}"
+                              th:text="${c.estatus}"></span>
+                    </td>
+                    <td>
+                        <div class="acciones">
+                            <a class="boton boton--secundario"
+                               th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones/' + ${c.id}}">Ver</a>
+                            <form th:if="${c.estatus.name() == 'APLICADA'}"
+                                  th:action="@{'/terceros/' + ${tercero.id} + '/compensaciones/' + ${c.id} + '/cancelar'}"
+                                  method="post" style="display: inline;"
+                                  data-confirmar="¿Cancelar esta compensación? Se revertirán los saldos de los documentos involucrados."
+                                  data-confirmar-peligro>
+                                <button type="submit" class="boton boton--peligro">Cancelar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="fila-vacia" th:if="${#lists.isEmpty(compensaciones)}">
+                    <td colspan="5">No hay compensaciones registradas para este tercero.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>

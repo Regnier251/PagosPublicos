@@ -9,4 +9,6 @@ import java.util.List;
 public interface DocumentoRepository extends JpaRepository<Documento, Long> {
 
     List<Documento> findByTerceroId(Long terceroId, Sort sort);
+
+    long countByTerceroId(Long terceroId);
 }

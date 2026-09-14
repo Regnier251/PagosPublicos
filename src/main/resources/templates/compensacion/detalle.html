@@ -1,42 +1,83 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${compensacion.folio}">Compensación</title>
-</head>
+<head th:replace="~{fragmentos/comunes :: cabecera('Compensación')}"></head>
 <body>
-    <a th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones'}">← Volver a compensaciones</a>
-    <h1 th:text="${compensacion.folio}"></h1>
 
-    <table>
-        <tr><th>Tercero</th><td th:text="${tercero.razonSocial}"></td></tr>
-        <tr><th>Monto compensado</th>
-            <td th:text="${#numbers.formatDecimal(compensacion.montoCompensado, 1, 2)}"></td></tr>
-        <tr><th>Saldo residual</th>
-            <td th:text="${#numbers.formatDecimal(compensacion.saldoResidual, 1, 2)}"></td></tr>
-        <tr><th>Cuenta de liquidación</th>
-            <td th:text="${compensacion.cuentaBancaria != null} ?
-                ${compensacion.cuentaBancaria.banco + ' — ' + compensacion.cuentaBancaria.clabe} : '—'"></td></tr>
-        <tr><th>Observaciones</th><td th:text="${compensacion.observaciones}"></td></tr>
-        <tr><th>Estatus</th><td th:text="${compensacion.estatus}"></td></tr>
-    </table>
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+    <nav th:replace="~{fragmentos/comunes :: menu-tercero(${tercero}, 'compensaciones')}"></nav>
 
-    <h2>Documentos involucrados</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Tipo</th>
-                <th>Folio</th>
-                <th>Monto aplicado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="linea : ${lineas}">
-                <td th:text="${linea.documento.tipo}"></td>
-                <td th:text="${linea.documento.folio}"></td>
-                <td th:text="${#numbers.formatDecimal(linea.montoAplicado, 1, 2)}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <main class="contenedor">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <h1 class="pagina__titulo" th:text="${compensacion.folio}"></h1>
+                <span class="etiqueta"
+                      th:classappend="${'etiqueta--' + #strings.toLowerCase(compensacion.estatus)}"
+                      th:text="${compensacion.estatus}"></span>
+            </div>
+            <form th:if="${compensacion.estatus.name() == 'APLICADA'}"
+                  th:action="@{'/terceros/' + ${tercero.id} + '/compensaciones/' + ${compensacion.id} + '/cancelar'}"
+                  method="post"
+                  data-confirmar="¿Cancelar esta compensación? Se revertirán los saldos de los documentos involucrados."
+                  data-confirmar-peligro>
+                <button type="submit" class="boton boton--peligro">Cancelar compensación</button>
+            </form>
+        </div>
+
+        <h2 class="seccion-titulo" style="margin-top: 0;">Datos del cruce</h2>
+        <table class="tabla" style="max-width: 640px;">
+            <tbody>
+                <tr>
+                    <th style="width: 40%;">Tercero</th>
+                    <td th:text="${tercero.razonSocial}"></td>
+                </tr>
+                <tr>
+                    <th>Monto compensado</th>
+                    <td class="numero" style="text-align: left; font-weight: 700; color: #1e3a8a;"
+                        th:text="${#numbers.formatDecimal(compensacion.montoCompensado, 1, 2)}"></td>
+                </tr>
+                <tr>
+                    <th>Saldo residual</th>
+                    <td style="text-align: left;"
+                        th:text="${#numbers.formatDecimal(compensacion.saldoResidual, 1, 2)}"></td>
+                </tr>
+                <tr>
+                    <th>Cuenta de liquidación</th>
+                    <td th:text="${compensacion.cuentaBancaria != null} ?
+                        ${compensacion.cuentaBancaria.banco + ' — ' + compensacion.cuentaBancaria.clabe} : '—'"></td>
+                </tr>
+                <tr>
+                    <th>Observaciones</th>
+                    <td th:text="${compensacion.observaciones != null and !compensacion.observaciones.isEmpty()} ?
+                        ${compensacion.observaciones} : '—'"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="seccion-titulo">Documentos involucrados</h2>
+        <table class="tabla" style="max-width: 640px;">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Folio</th>
+                    <th class="numero">Monto aplicado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="linea : ${lineas}">
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(linea.documento.tipo)}"
+                              th:text="${linea.documento.tipo}"></span>
+                    </td>
+                    <td th:text="${linea.documento.folio}"></td>
+                    <td class="numero"
+                        th:text="${#numbers.formatDecimal(linea.montoAplicado, 1, 2)}"></td>
+                </tr>
+                <tr class="fila-vacia" th:if="${#lists.isEmpty(lineas)}">
+                    <td colspan="3">Sin documentos en el detalle.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>

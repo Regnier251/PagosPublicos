@@ -89,4 +89,8 @@ public class DocumentoService {
         documento.setEstatus(EstatusDocumento.CANCELADO);
         repository.save(documento);
     }
+
+    public long contarPorTercero(Long terceroId) {
+        return repository.countByTerceroId(terceroId);
+    }
 }

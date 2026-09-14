@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Terceros - Pagos Públicos</title>
-</head>
-<body>
-    <a th:href="@{/}">← Inicio</a>
-    <h1>Terceros</h1>
+<head th:replace="~{fragmentos/comunes :: cabecera('Terceros')}"></head>
+<body th:data-exito="${exito}">
 
-    <p th:if="${exito}" th:text="${exito}"></p>
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
 
-    <a th:href="@{/terceros/nuevo}">+ Nuevo tercero</a>
+    <main class="contenedor">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <h1 class="pagina__titulo">Terceros</h1>
+                <p class="pagina__subtitulo">Clientes y proveedores registrados en el sistema</p>
+            </div>
+            <a class="boton boton--primario" th:href="@{/terceros/nuevo}">+ Nuevo tercero</a>
+        </div>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>RFC</th>
-                <th>Razón social</th>
-                <th>Estatus</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="t : ${terceros}">
-                <td th:text="${t.rfc}"></td>
-                <td th:text="${t.razonSocial}"></td>
-                <td th:text="${t.estatus}"></td>
-                <td>
-                    <a th:href="@{'/terceros/' + ${t.id} + '/editar'}">Editar</a>
-                    <form th:action="@{'/terceros/' + ${t.id} + '/cambiar-estatus'}"
-                          method="post" style="display:inline;">
-                        <button type="submit"
-                                th:text="${t.estatus.name() == 'ACTIVO'} ? 'Desactivar' : 'Activar'">
-                        </button>
-                    </form>
-                    <a th:href="@{'/terceros/' + ${t.id} + '/cuentas'}">Cuentas</a>
-                    <a th:href="@{'/terceros/' + ${t.id} + '/documentos'}">Documentos</a>
-                    <a th:href="@{'/terceros/' + ${t.id} + '/compensaciones'}">Compensaciones</a>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(terceros)}">
-                <td colspan="4">No hay terceros registrados aún.</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>RFC</th>
+                    <th>Razón social</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${terceros}">
+                    <td th:text="${t.rfc}"></td>
+                    <td th:text="${t.razonSocial}"></td>
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(t.estatus)}"
+                              th:text="${t.estatus}"></span>
+                    </td>
+                    <td>
+                        <a class="boton boton--primario"
+                           th:href="@{'/terceros/' + ${t.id}}">Ver detalle</a>
+                    </td>
+                </tr>
+                <tr class="fila-vacia" th:if="${#lists.isEmpty(terceros)}">
+                    <td colspan="4">No hay terceros registrados aún. Crea el primero con el botón de arriba.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>

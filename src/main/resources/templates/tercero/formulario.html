@@ -1,32 +1,55 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Tercero - Pagos Públicos</title>
-</head>
+<head th:replace="~{fragmentos/comunes :: cabecera('Tercero')}"></head>
 <body>
-    <a th:href="@{/terceros}">← Volver a Terceros</a>
 
-    <h1 th:text="${tercero.id != null} ? 'Editar tercero' : 'Nuevo tercero'"></h1>
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
 
-    <form th:action="@{/terceros}" th:object="${tercero}" method="post">
-        <input type="hidden" th:field="*{id}" />
+    <!-- Barra contextual SOLO en edición (en modo nuevo aún no hay tercero).
+         th:block + th:if alrededor: th:replace tiene mayor precedencia que
+         th:if, así que no deben ir en el mismo elemento. -->
+    <th:block th:if="${tercero.id != null}">
+        <nav th:replace="~{fragmentos/comunes :: menu-tercero(${tercero}, 'datos')}"></nav>
+    </th:block>
 
-        <div>
-            <label for="rfc">RFC</label><br>
-            <input type="text" id="rfc" th:field="*{rfc}" maxlength="13" required>
-            <span th:if="${#fields.hasErrors('rfc')}" th:errors="*{rfc}"
-                  style="color: red;"></span>
-        </div>
+    <main class="contenedor">
+        <h1 class="pagina__titulo"
+            th:text="${tercero.id != null} ? 'Editar tercero' : 'Nuevo tercero'"></h1>
+        <p class="pagina__subtitulo"
+           th:text="${tercero.id != null} ? 'Modifica los datos y guarda los cambios' : 'Registra un cliente o proveedor'"></p>
 
-        <div>
-            <label for="razonSocial">Razón social</label><br>
-            <input type="text" id="razonSocial" th:field="*{razonSocial}" required>
-            <span th:if="${#fields.hasErrors('razonSocial')}" th:errors="*{razonSocial}"
-                  style="color: red;"></span>
-        </div>
+        <form th:action="@{/terceros}" th:object="${tercero}" method="post"
+              style="max-width: 560px;">
+            <input type="hidden" th:field="*{id}" />
 
-        <button type="submit">Guardar</button>
-    </form>
+            <div class="campo">
+                <label for="rfc">RFC</label>
+                <input type="text" id="rfc" th:field="*{rfc}" maxlength="13"
+                       placeholder="Ej. ABC123456XYZ" required>
+                <span class="error-campo" th:if="${#fields.hasErrors('rfc')}"
+                      th:errors="*{rfc}"></span>
+            </div>
+
+            <div class="campo">
+                <label for="razonSocial">Razón social</label>
+                <input type="text" id="razonSocial" th:field="*{razonSocial}" required>
+                <span class="error-campo" th:if="${#fields.hasErrors('razonSocial')}"
+                      th:errors="*{razonSocial}"></span>
+            </div>
+
+            <!-- Auditoría: solo visible en edición -->
+            <p th:if="${tercero.creadoEn != null}"
+               style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
+                Creado el <span th:text="${#temporals.format(tercero.creadoEn, 'dd/MM/yyyy HH:mm')}"></span>
+                · Última modificación:
+                <span th:text="${#temporals.format(tercero.actualizadoEn, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+
+            <div class="acciones">
+                <button type="submit" class="boton boton--primario">Guardar</button>
+                <a class="boton boton--secundario" th:href="@{/terceros}">Volver</a>
+            </div>
+        </form>
+    </main>
 </body>
 </html>
