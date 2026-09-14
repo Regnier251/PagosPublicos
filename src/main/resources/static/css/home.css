@@ -1,0 +1,128 @@
+/* ============================================================
+   home.css — EXCLUSIVO de la página de inicio (home.html):
+   encabezado con badge, carrusel de módulos y sus tarjetas.
+   Las clases .swiper-* pertenecen a la librería (no renombrar).
+   ============================================================ */
+
+.home-pagina {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.home-dashboard {
+    max-width: 900px;
+    width: 100%;
+}
+
+/* ---------- Encabezado ---------- */
+.home-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.home-badge {
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.home-header h1 {
+    font-size: 2.2rem;
+    margin-top: 0.5rem;
+}
+
+.home-header p {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+/* ---------- Carrusel ---------- */
+.home-carrusel {
+    width: 100%;
+    padding: 1.5rem 0.5rem 3.5rem 0.5rem !important;
+}
+
+/* Controles de la librería (colores del sitio) */
+.swiper-button-next, .swiper-button-prev { color: #1e3a8a !important; }
+.swiper-pagination-bullet-active { background: #1e3a8a !important; }
+
+/* ---------- Tarjeta de módulo ---------- */
+.home-tarjeta {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.home-tarjeta:hover {
+    border-color: #1e3a8a;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(30, 58, 138, 0.12);
+    text-decoration: none;
+}
+
+.home-tarjeta__cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home-tarjeta__icono {
+    font-size: 1.8rem;
+    background-color: #f8fafc;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+}
+
+.home-tarjeta__contenido h3 {
+    font-size: 1.15rem;
+    color: #1e3a8a;
+    margin: 0.75rem 0 0.25rem 0;
+}
+
+.home-tarjeta__contenido p {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.home-tarjeta__flecha {
+    font-size: 1.2rem;
+    color: #64748b;
+    align-self: flex-end;
+}
+
+/* Variante: módulo no disponible aún */
+.home-tarjeta--proximamente {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+.home-tarjeta--proximamente:hover {
+    border-color: #e2e8f0;
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.home-tarjeta__proximo {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    background-color: #f1f5f9;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
