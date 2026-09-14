@@ -2,12 +2,17 @@ package com.arely.pagospublicos.archivo.controller;
 
 import com.arely.pagospublicos.archivo.model.ArchivoZip;
 import com.arely.pagospublicos.archivo.service.ArchivoZipService;
+import com.arely.pagospublicos.archivo.service.ArchivoZipService.InfoArchivoInterno;
+
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 @Controller
 @RequestMapping("/archivos")
@@ -45,5 +50,19 @@ public class ArchivoZipController {
         redirect.addFlashAttribute("error",
                 "El archivo excede el límite de 25 MB permitidos");
         return "redirect:/archivos";
+    }
+
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable Long id, Model model) {
+        ArchivoZip archivo = service.buscarPorId(id);
+        List<InfoArchivoInterno> internos = service.listarArchivosInternos(archivo);
+
+        boolean tieneCompensacionPdf = internos.stream()
+                .anyMatch(InfoArchivoInterno::esPdfCompensacion);
+
+        model.addAttribute("archivo", archivo);
+        model.addAttribute("internos", internos);
+        model.addAttribute("tieneCompensacionPdf", tieneCompensacionPdf);
+        return "archivo/detalle";
     }
 }

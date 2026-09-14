@@ -126,4 +126,31 @@ public class ArchivoZipService {
             // No enmascara el error de negocio original
         }
     }
+
+        /** Contenido interno del ZIP: se lee del disco en el momento de la consulta. */
+    public List<InfoArchivoInterno> listarArchivosInternos(ArchivoZip archivo) {
+        Path ruta = rutaAbsoluta(archivo);
+        if (!Files.exists(ruta)) {
+            throw new IllegalArgumentException(
+                    "El archivo físico no se encuentra en el almacenamiento");
+        }
+        try (ZipFile zip = new ZipFile(ruta.toFile())) {
+            return zip.stream()
+                    .filter(entrada -> !entrada.isDirectory())
+                    .map(entrada -> new InfoArchivoInterno(
+                            entrada.getName(),
+                            entrada.getSize(),
+                            entrada.getCompressedSize()))
+                    .toList();
+        } catch (IOException e) {
+            throw new IllegalStateException("No se pudo leer el contenido del ZIP", e);
+        }
+    }
+
+    /** DTO simple de solo lectura para la vista. */
+    public record InfoArchivoInterno(String nombre, long tamanoBytes, long tamanoComprimido) {
+        public boolean esPdfCompensacion() {
+            return nombre.toLowerCase().endsWith("compensacion.pdf");
+        }
+    }
 }

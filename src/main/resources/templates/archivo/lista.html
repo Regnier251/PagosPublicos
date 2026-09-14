@@ -48,7 +48,10 @@
                               th:classappend="${'etiqueta--' + #strings.toLowerCase(a.estatus)}"
                               th:text="${a.estatus}"></span>
                     </td>
-                    <td><span style="color: #64748b;">Ver detalle (próximamente)</span></td>
+                    <td>
+                        <a class="boton boton--secundario"
+                           th:href="@{'/archivos/' + ${a.id}}">Ver detalle</a>
+                    </td>
                 </tr>
                 <tr class="fila-vacia" th:if="${#lists.isEmpty(archivos)}">
                     <td colspan="6">Aún no se ha recibido ningún archivo ZIP.</td>
