@@ -1,6 +1,8 @@
 package com.arely.pagospublicos.compensacion.repository;
 
 import com.arely.pagospublicos.compensacion.model.Compensacion;
+import com.arely.pagospublicos.compensacion.model.EstatusCompensacion;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +16,6 @@ public interface CompensacionRepository extends JpaRepository<Compensacion, Long
     Optional<Compensacion> findFirstByFolioStartingWithOrderByFolioDesc(String prefijo);
 
     long countByTerceroId(Long terceroId);
+
+    long countByEstatus(EstatusCompensacion estatus);
 }

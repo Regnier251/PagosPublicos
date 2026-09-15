@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/comunes :: cabecera-kpi('Indicadores')}"></head>
+<body>
+
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+
+    <main class="contenedor">
+        <h1 class="pagina__titulo">Indicadores</h1>
+        <p class="pagina__subtitulo">Panorama general del sistema en tiempo real</p>
+
+        <!-- Tarjetas KPI (mismas clases que la ficha del tercero) -->
+        <div class="resumen-tarjetas">
+            <div class="resumen-tarjeta">
+                <span class="resumen-tarjeta__numero" th:text="${tercerosActivos}"></span>
+                <span class="resumen-tarjeta__titulo">Terceros activos</span>
+            </div>
+            <div class="resumen-tarjeta">
+                <span class="resumen-tarjeta__numero" th:text="${docsVigentes}"></span>
+                <span class="resumen-tarjeta__titulo">Documentos vigentes</span>
+            </div>
+            <div class="resumen-tarjeta">
+                <span class="resumen-tarjeta__numero" th:text="${compensacionesAplicadas}"></span>
+                <span class="resumen-tarjeta__titulo">Compensaciones aplicadas</span>
+            </div>
+            <div class="resumen-tarjeta">
+                <span class="resumen-tarjeta__numero" th:text="${archivosMesActual}"></span>
+                <span class="resumen-tarjeta__titulo">ZIPs recibidos este mes</span>
+            </div>
+        </div>
+
+        <!-- Gráficas -->
+        <div class="kpi-graficas">
+            <div class="kpi-grafica">
+                <h3>Documentos por estatus</h3>
+                <div class="kpi-grafica__lienzo">
+                    <canvas id="grafica-documentos"></canvas>
+                </div>
+            </div>
+            <div class="kpi-grafica">
+                <h3>ZIPs recibidos (últimos 6 meses)</h3>
+                <div class="kpi-grafica__lienzo">
+                    <canvas id="grafica-archivos"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Datos BD → JS: Thymeleaf serializa a JSON con /*[[...]]*/ -->
+        <script th:inline="javascript">
+            const DATOS_KPI = {
+                docsVigentes:      /*[[${docsVigentes}]]*/           0,
+                docsCompensados:   /*[[${docsCompensados}]]*/        0,
+                docsCancelados:    /*[[${docsCancelados}]]*/         0,
+                etiquetasMeses:    /*[[${etiquetasMeses}]]*/         [],
+                archivosPorMes:    /*[[${archivosPorMes}]]*/         []
+            };
+        </script>
+    </main>
+</body>
+</html>

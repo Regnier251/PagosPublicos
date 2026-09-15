@@ -1,6 +1,8 @@
 package com.arely.pagospublicos.tercero.repository;
 
 import com.arely.pagospublicos.tercero.model.Documento;
+import com.arely.pagospublicos.tercero.model.EstatusDocumento;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +13,6 @@ public interface DocumentoRepository extends JpaRepository<Documento, Long> {
     List<Documento> findByTerceroId(Long terceroId, Sort sort);
 
     long countByTerceroId(Long terceroId);
+
+    long countByEstatus(EstatusDocumento estatus);
 }

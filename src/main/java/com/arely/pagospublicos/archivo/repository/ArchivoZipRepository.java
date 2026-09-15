@@ -14,4 +14,6 @@ public interface ArchivoZipRepository
     boolean existsBySumaVerificacion(String sumaVerificacion);
 
     List<ArchivoZip> findBySubidoEnBetween(LocalDateTime desde, LocalDateTime hasta, Sort sort);
+
+    long countBySubidoEnBetween(LocalDateTime desde, LocalDateTime hasta);
 }

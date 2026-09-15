@@ -1,0 +1,32 @@
+/* ============================================================
+   kpi.css — EXCLUSIVO de kpi/index.html: layout de gráficas.
+   Las tarjetas KPI reutilizan .resumen-tarjetas/.resumen-tarjeta
+   de componentes.css (las de la ficha del tercero).
+   ============================================================ */
+
+.kpi-graficas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.kpi-grafica {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.kpi-grafica h3 {
+    font-size: 1rem;
+    color: #1e3a8a;
+    margin-bottom: 0.75rem;
+}
+
+/* Altura fija para que Chart.js no baile al redimensionar */
+.kpi-grafica__lienzo {
+    position: relative;
+    height: 280px;
+}
