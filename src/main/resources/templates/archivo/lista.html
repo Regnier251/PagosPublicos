@@ -6,8 +6,13 @@
     <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
 
     <main class="contenedor">
-        <h1 class="pagina__titulo">Archivos ZIP</h1>
-        <p class="pagina__subtitulo">Arrastra o selecciona comprimidos para su recepción y verificación</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <h1 class="pagina__titulo">Archivos ZIP</h1>
+            <a class="boton boton--secundario" th:href="@{/archivos/consultar}">
+                🔍 Consultar histórico
+            </a>
+        </div>
+        <p class="pagina__subtitulo">Recepciones del mes en curso — arrastra un comprimido para subirlo</p>
 
         <form id="form-subida" th:action="@{/archivos/subir}" method="post"
               enctype="multipart/form-data" style="margin-bottom: 2rem;">
@@ -23,41 +28,8 @@
             </div>
         </form>
 
-        <table class="tabla">
-            <thead>
-                <tr>
-                    <th>Archivo</th>
-                    <th class="numero">Tamaño</th>
-                    <th class="numero">Archivos internos</th>
-                    <th>Fecha de recepción</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="a : ${archivos}">
-                    <td th:text="${a.nombreOriginal}"></td>
-                    <td class="numero"
-                        th:text="${a.tamanoBytes >= 1048576
-                            ? #numbers.formatDecimal(a.tamanoBytes / 1048576.0, 1, 2) + ' MB'
-                            : #numbers.formatDecimal(a.tamanoBytes / 1024.0, 1, 2) + ' KB'}"></td>
-                    <td class="numero" th:text="${a.totalArchivosInternos}"></td>
-                    <td th:text="${#temporals.format(a.subidoEn, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td>
-                        <span class="etiqueta"
-                              th:classappend="${'etiqueta--' + #strings.toLowerCase(a.estatus)}"
-                              th:text="${a.estatus}"></span>
-                    </td>
-                    <td>
-                        <a class="boton boton--secundario"
-                           th:href="@{'/archivos/' + ${a.id}}">Ver detalle</a>
-                    </td>
-                </tr>
-                <tr class="fila-vacia" th:if="${#lists.isEmpty(archivos)}">
-                    <td colspan="6">Aún no se ha recibido ningún archivo ZIP.</td>
-                </tr>
-            </tbody>
-        </table>
+        <div th:replace="~{fragmentos/tabla-archivos :: tabla(${archivos},
+                'Sin recepciones este mes. Usa «Consultar histórico» para buscar en periodos anteriores.')}"></div>
     </main>
 
     <script th:src="@{/js/archivo-subida.js}" defer></script>

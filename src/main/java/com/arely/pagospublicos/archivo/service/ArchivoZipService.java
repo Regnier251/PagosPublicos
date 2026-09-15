@@ -5,6 +5,7 @@ import com.arely.pagospublicos.archivo.model.EstatusArchivoZip;
 import com.arely.pagospublicos.archivo.repository.ArchivoZipRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,10 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.zip.ZipFile;
@@ -32,8 +37,53 @@ public class ArchivoZipService {
         this.directorioRaiz = directorioRaiz;
     }
 
-    public List<ArchivoZip> listar() {
-        return repository.findAll(Sort.by("subidoEn").descending());
+        /** Bandeja de recepción: solo lo recibido en el mes en curso. */
+    public List<ArchivoZip> listarMesActual() {
+        YearMonth actual = YearMonth.now();
+        return repository.findBySubidoEnBetween(
+                actual.atDay(1).atStartOfDay(),
+                actual.atEndOfMonth().atTime(LocalTime.MAX),
+                Sort.by("subidoEn").descending());
+    }
+
+    /** Búsqueda histórica por criterios opcionales combinables. */
+        /** Búsqueda histórica por criterios opcionales combinables. */
+    public List<ArchivoZip> buscar(String nombre, Integer mes, Integer anio) {
+        List<Specification<ArchivoZip>> criterios = new ArrayList<>();
+
+        if (nombre != null && !nombre.isBlank()) {
+            String criterio = nombre.trim().toLowerCase();
+            criterios.add((raiz, query, cb) -> cb.like(
+                    cb.lower(raiz.get("nombreOriginal")),
+                    "%" + criterio + "%"));
+        }
+
+        if (anio != null) {
+            LocalDateTime desde;
+            LocalDateTime hasta;
+            if (mes != null) {
+                YearMonth periodo = YearMonth.of(anio, mes);
+                desde = periodo.atDay(1).atStartOfDay();
+                hasta = periodo.atEndOfMonth().atTime(LocalTime.MAX);
+            } else {
+                desde = LocalDate.of(anio, 1, 1).atStartOfDay();
+                hasta = LocalDate.of(anio, 12, 31).atTime(LocalTime.MAX);
+            }
+            final LocalDateTime filtroDesde = desde;
+            final LocalDateTime filtroHasta = hasta;
+            criterios.add((raiz, query, cb) ->
+                    cb.between(raiz.get("subidoEn"), filtroDesde, filtroHasta));
+        }
+
+        // Sin criterios no se consulta (el controller ya lo filtra,
+        // pero el service se defiende solo)
+        if (criterios.isEmpty()) {
+            return List.of();
+        }
+
+        return repository.findAll(
+                Specification.allOf(criterios),
+                Sort.by("subidoEn").descending());
     }
 
     public ArchivoZip buscarPorId(Long id) {

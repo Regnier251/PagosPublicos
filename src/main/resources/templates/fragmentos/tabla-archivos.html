@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <table class="tabla" th:fragment="tabla(archivos, mensajeVacio)">
+        <thead>
+            <tr>
+                <th>Archivo</th>
+                <th class="numero">Tamaño</th>
+                <th class="numero">Archivos internos</th>
+                <th>Fecha de recepción</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="a : ${archivos}">
+                <td th:text="${a.nombreOriginal}"></td>
+                <td class="numero"
+                    th:text="${a.tamanoBytes >= 1048576
+                        ? #numbers.formatDecimal(a.tamanoBytes / 1048576.0, 1, 2) + ' MB'
+                        : #numbers.formatDecimal(a.tamanoBytes / 1024.0, 1, 2) + ' KB'}"></td>
+                <td class="numero" th:text="${a.totalArchivosInternos}"></td>
+                <td th:text="${#temporals.format(a.subidoEn, 'dd/MM/yyyy HH:mm')}"></td>
+                <td>
+                    <span class="etiqueta"
+                          th:classappend="${'etiqueta--' + #strings.toLowerCase(a.estatus)}"
+                          th:text="${a.estatus}"></span>
+                </td>
+                <td>
+                    <a class="boton boton--secundario"
+                       th:href="@{'/archivos/' + ${a.id}}">Ver detalle</a>
+                </td>
+            </tr>
+            <tr class="fila-vacia" th:if="${#lists.isEmpty(archivos)}">
+                <td colspan="6" th:text="${mensajeVacio}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
