@@ -165,7 +165,7 @@ public class CompensacionService {
     }
 
     /**
-     * Cancela la compensación y revierte TODO:
+     * Cancela la compensación y revierte los saldos de los documentos involucrados.:
      * restaura el saldo de cada documento involucrado.
      */
     @Transactional

@@ -19,7 +19,7 @@ import java.util.Locale;
 @Service
 public class KpiService {
 
-    private static final Locale ESPANOL_MX = new Locale("es", "MX");
+    private static final Locale ESPANOL_MX = Locale.of("es", "MX");
 
     private final TerceroRepository terceroRepository;
     private final DocumentoRepository documentoRepository;
