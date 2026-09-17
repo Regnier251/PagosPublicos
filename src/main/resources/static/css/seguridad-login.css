@@ -1,0 +1,34 @@
+/* ============================================================
+   seguridad-login.css — EXCLUSIVO de seguridad/login.html
+   ============================================================ */
+
+.login-pagina {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.login-tarjeta {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-tarjeta h1 {
+    font-size: 1.4rem;
+    color: #1e3a8a;
+    text-align: center;
+}
+
+.login-tarjeta > p {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0.5rem 0 1.5rem;
+}

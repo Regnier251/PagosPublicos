@@ -3,6 +3,8 @@ package com.arely.pagospublicos.poliza.controller;
 import com.arely.pagospublicos.poliza.model.TramiteForm;
 import com.arely.pagospublicos.poliza.model.TramitePoliza;
 import com.arely.pagospublicos.poliza.service.TramitePolizaService;
+import com.arely.pagospublicos.seguridad.service.DetalleUsuarioService;
+
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+
 import java.nio.file.Path;
 import java.net.MalformedURLException;
 
@@ -24,9 +28,11 @@ import java.net.MalformedURLException;
 public class TramitePolizaController {
 
     private final TramitePolizaService service;
+    private final DetalleUsuarioService detalleUsuarioService;
 
-    public TramitePolizaController(TramitePolizaService service) {
+    public TramitePolizaController(TramitePolizaService service, DetalleUsuarioService detalleUsuarioService) {
         this.service = service;
+        this.detalleUsuarioService = detalleUsuarioService;
     }
 
     @GetMapping
@@ -40,16 +46,19 @@ public class TramitePolizaController {
     public String recibir(@Valid @ModelAttribute("form") TramiteForm form,
                           BindingResult result,
                           Model model,
+                          Authentication authentication,
                           RedirectAttributes redirect) {
         if (result.hasErrors()) {
             model.addAttribute("tramites", service.listarRecientes());
             return "poliza/lista";
         }
         try {
-            TramitePoliza tramite = service.recibir(form);
+            String persona = detalleUsuarioService.nombreCompletoDe(authentication.getName());
+            TramitePoliza tramite = service.recibir(form, persona);
             boolean conPoliza = tramite.getArchivoPoliza() != null;
             redirect.addFlashAttribute("exito",
-                    "Trámite registrado: " + tramite.getNombreProveedorSap()
+                    "Trámite registrado a nombre de " + tramite.getPersonaTramite()
+                    + ": " + tramite.getNombreProveedorSap()
                     + (conPoliza ? " — Póliza detectada: " + tramite.getArchivoPoliza() : ""));
             if (!conPoliza) {
                 redirect.addFlashAttribute("advertencia",

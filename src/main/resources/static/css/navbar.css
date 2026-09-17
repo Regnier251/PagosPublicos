@@ -71,3 +71,12 @@
     border-bottom-color: #1e3a8a;
     font-weight: 600;
 }
+
+/* ---------- Usuario en sesión + salir ---------- */
+.navbar__usuario {
+    margin-left: auto;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.navbar__salir { display: inline; }

@@ -42,8 +42,12 @@ public class TramitePolizaService {
         this.parserPoliza = parserPoliza;
     }
 
-        @Transactional
-    public TramitePoliza recibir(TramiteForm form) {
+    @Transactional
+    public TramitePoliza recibir(TramiteForm form, String personaTramite) {
+        // ── 0. La persona viene de la sesión (nunca del formulario) ──
+        if (personaTramite == null || personaTramite.isBlank()) {
+            throw new IllegalArgumentException("No hay un usuario en sesión para registrar el trámite");
+        }
         // ── 1. Validaciones del archivo ──
         MultipartFile archivo = form.getArchivo();
         if (archivo == null || archivo.isEmpty()) {
@@ -70,7 +74,7 @@ public class TramitePolizaService {
         RutaPolizaBuilder.RutaTramite ruta = builder.construir(
                 form.getFechaCompensacion(),
                 java.time.LocalTime.now(),
-                form.getPersona(),
+                personaTramite,
                 form.getReferencia(),
                 nombreProveedor);
 
@@ -102,7 +106,7 @@ public class TramitePolizaService {
         // ── 8. Registrar en BD ──
         TramitePoliza tramite = new TramitePoliza();
         tramite.setNombreProveedorSap(nombreProveedor);
-        tramite.setPersonaTramite(form.getPersona().strip());
+        tramite.setPersonaTramite(personaTramite.strip());
         tramite.setReferencia(form.getReferencia().strip());
         tramite.setFechaCompensacion(form.getFechaCompensacion());
         tramite.setFechaCarpeta(ruta.fechaCarpeta());

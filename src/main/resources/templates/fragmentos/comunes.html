@@ -1,61 +1,71 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <!-- Cabecera estándar: la usan TODAS las páginas internas -->
+    <head th:fragment="cabecera(titulo)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/base.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
+        <script th:src="@{/js/alertas.js}" defer></script>
+    </head>
 
-<!-- Cabecera estándar: la usan TODAS las páginas internas -->
-<head th:fragment="cabecera(titulo)">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/componentes.css}">
-    <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
-    <script th:src="@{/js/alertas.js}" defer></script>
-</head>
+    <!-- Cabecera del inicio: SOLO home.html (agrega Swiper y home.css) -->
+    <head th:fragment="cabecera-home(titulo)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/base.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/librerias/swiper/swiper-bundle.min.css}">
+        <link rel="stylesheet" th:href="@{/css/home.css}">
+    </head>
 
-<!-- Cabecera del inicio: SOLO home.html (agrega Swiper y home.css) -->
-<head th:fragment="cabecera-home(titulo)">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/componentes.css}">
-    <link rel="stylesheet" th:href="@{/librerias/swiper/swiper-bundle.min.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
-</head>
+    <!-- Cabecera del formulario de compensación: SOLO compensacion/formulario.html -->
+    <head th:fragment="cabecera-compensacion(titulo)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/base.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/css/compensacion-formulario.css}">
+        <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
+        <script th:src="@{/js/alertas.js}" defer></script>
+    </head>
 
-<!-- Cabecera del formulario de compensación: SOLO compensacion/formulario.html -->
-<head th:fragment="cabecera-compensacion(titulo)">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/componentes.css}">
-    <link rel="stylesheet" th:href="@{/css/compensacion-formulario.css}">
-    <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
-    <script th:src="@{/js/alertas.js}" defer></script>
-</head>
+    <!-- Cabecera del módulo de archivos: SOLO la usa archivo/lista.html y archivo/subida.html -->
+    <head th:fragment="cabecera-archivo(titulo)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/base.css}">
+        <link rel="stylesheet" th:href="@{/css/navbar.css}">
+        <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/css/archivo-subida.css}">
+        <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
+        <script th:src="@{/js/alertas.js}" defer></script>
+    </head>
 
- <!-- Cabecera del módulo de archivos: SOLO la usa archivo/lista.html y archivo/subida.html -->
-<head th:fragment="cabecera-archivo(titulo)">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/componentes.css}">
-    <link rel="stylesheet" th:href="@{/css/archivo-subida.css}">
-    <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
-    <script th:src="@{/js/alertas.js}" defer></script>
-</head>
+    <!-- Cabecera del login: SOLO la usa seguridad/login.html -->
+    <head th:fragment="cabecera-seguridad(titulo)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/base.css}">
+        <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/css/seguridad-login.css}">
+    </head>
 
- <!-- Cabecera de indicadores: SOLO la usa kpi/index.html
+    <!-- Cabecera de indicadores: SOLO la usa kpi/index.html
          (agrega Chart.js y el CSS del módulo) -->
     <head th:fragment="cabecera-kpi(titulo)">
         <meta charset="UTF-8">
@@ -70,44 +80,50 @@
         <script th:src="@{/js/kpi.js}" defer></script>
     </head>
 
-<body>
-    <!-- Navbar global: la marca ES el enlace al inicio -->
-    <nav class="navbar" th:fragment="menu">
-        <div class="navbar__interior">
-            <a class="navbar__marca" th:href="@{/}">Pagos Públicos</a>
-            <a class="navbar__enlace" th:href="@{/terceros}">Terceros</a>
-            <a class="navbar__enlace" th:href="@{/archivos}">Archivos</a>
-            <a class="navbar__enlace" th:href="@{/kpis}">Indicadores</a>
-            <a class="navbar__enlace" th:href="@{/proveedores}">Proveedores</a>
-            <a class="navbar__enlace" th:href="@{/polizas}">Pólizas</a>
-        </div>
-    </nav>
+    <body>
+        <!-- Navbar global: la marca ES el enlace al inicio -->
+        <nav class="navbar" th:fragment="menu">
+            <div class="navbar__interior">
+                <a class="navbar__marca" th:href="@{/}">Pagos Públicos</a>
+                <a class="navbar__enlace" th:href="@{/terceros}">Terceros</a>
+                <a class="navbar__enlace" th:href="@{/proveedores}">Proveedores</a>
+                <a class="navbar__enlace" th:href="@{/polizas}">Pólizas</a>
+                <a class="navbar__enlace" th:href="@{/archivos}">Archivos</a>
+                <a class="navbar__enlace" th:href="@{/kpis}">Indicadores</a>
+                <th:block th:if="${usuarioEnSesion != null}">
+                    <span class="navbar__usuario" th:text="${usuarioEnSesion}"></span>
+                    <form th:action="@{/logout}" method="post" class="navbar__salir">
+                        <button type="submit" class="boton boton--secundario">Salir</button>
+                    </form>
+                </th:block>
+            </div>
+        </nav>
 
-    <!-- Barra de pestañas del tercero: solo páginas de un tercero seleccionado -->
-    <nav class="barra-tercero" th:fragment="menu-tercero(tercero, activa)">
-        <div class="barra-tercero__interior">
-            <div class="barra-tercero__identidad">
-                <span class="barra-tercero__nombre" th:text="${tercero.razonSocial}">Nombre</span>
-                <span class="barra-tercero__rfc" th:text="${tercero.rfc}">RFC</span>
+        <!-- Barra de pestañas del tercero: solo páginas de un tercero seleccionado -->
+        <nav class="barra-tercero" th:fragment="menu-tercero(tercero, activa)">
+            <div class="barra-tercero__interior">
+                <div class="barra-tercero__identidad">
+                    <span class="barra-tercero__nombre" th:text="${tercero.razonSocial}">Nombre</span>
+                    <span class="barra-tercero__rfc" th:text="${tercero.rfc}">RFC</span>
+                </div>
+                <div class="barra-tercero__pestanas">
+                    <a class="barra-tercero__pestana"
+                    th:classappend="${activa == 'resumen'} ? 'barra-tercero__pestana--activa'"
+                    th:href="@{'/terceros/' + ${tercero.id}}">Resumen</a>
+                    <a class="barra-tercero__pestana"
+                    th:classappend="${activa == 'datos'} ? 'barra-tercero__pestana--activa'"
+                    th:href="@{'/terceros/' + ${tercero.id} + '/editar'}">Datos</a>
+                    <a class="barra-tercero__pestana"
+                    th:classappend="${activa == 'cuentas'} ? 'barra-tercero__pestana--activa'"
+                    th:href="@{'/terceros/' + ${tercero.id} + '/cuentas'}">Cuentas</a>
+                    <a class="barra-tercero__pestana"
+                    th:classappend="${activa == 'documentos'} ? 'barra-tercero__pestana--activa'"
+                    th:href="@{'/terceros/' + ${tercero.id} + '/documentos'}">Documentos</a>
+                    <a class="barra-tercero__pestana"
+                    th:classappend="${activa == 'compensaciones'} ? 'barra-tercero__pestana--activa'"
+                    th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones'}">Compensaciones</a>
+                </div>
             </div>
-            <div class="barra-tercero__pestanas">
-                <a class="barra-tercero__pestana"
-                   th:classappend="${activa == 'resumen'} ? 'barra-tercero__pestana--activa'"
-                   th:href="@{'/terceros/' + ${tercero.id}}">Resumen</a>
-                <a class="barra-tercero__pestana"
-                   th:classappend="${activa == 'datos'} ? 'barra-tercero__pestana--activa'"
-                   th:href="@{'/terceros/' + ${tercero.id} + '/editar'}">Datos</a>
-                <a class="barra-tercero__pestana"
-                   th:classappend="${activa == 'cuentas'} ? 'barra-tercero__pestana--activa'"
-                   th:href="@{'/terceros/' + ${tercero.id} + '/cuentas'}">Cuentas</a>
-                <a class="barra-tercero__pestana"
-                   th:classappend="${activa == 'documentos'} ? 'barra-tercero__pestana--activa'"
-                   th:href="@{'/terceros/' + ${tercero.id} + '/documentos'}">Documentos</a>
-                <a class="barra-tercero__pestana"
-                   th:classappend="${activa == 'compensaciones'} ? 'barra-tercero__pestana--activa'"
-                   th:href="@{'/terceros/' + ${tercero.id} + '/compensaciones'}">Compensaciones</a>
-            </div>
-        </div>
-    </nav>
-</body>
+        </nav>
+    </body>
 </html>

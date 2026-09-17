@@ -31,11 +31,6 @@
             </div>
 
             <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; align-items: flex-end;">
-                <div class="campo" style="flex: 2; min-width: 200px; margin-bottom: 0;">
-                    <label for="persona">Persona que tramita</label>
-                    <input type="text" id="persona" th:field="*{persona}" required>
-                    <span class="error-campo" th:if="${#fields.hasErrors('persona')}" th:errors="*{persona}"></span>
-                </div>
                 <div class="campo" style="flex: 1; min-width: 120px; margin-bottom: 0;">
                     <label for="referencia">Referencia</label>
                     <input type="text" id="referencia" th:field="*{referencia}" required>
