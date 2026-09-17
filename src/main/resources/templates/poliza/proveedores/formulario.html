@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/comunes :: cabecera('Proveedor SAP')}"></head>
+<body>
+
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+
+    <main class="contenedor">
+        <a th:href="@{/proveedores}">← Volver a Proveedores</a>
+        <h1 class="pagina__titulo"
+            th:text="${proveedor.id != null} ? 'Editar proveedor' : 'Nuevo proveedor'"></h1>
+        <p class="pagina__subtitulo"
+           th:text="${proveedor.id != null} ? 'Modifica los datos del proveedor' : 'Registra un proveedor con su nombre de carpeta SAP'"></p>
+
+        <form th:action="@{/proveedores}" th:object="${proveedor}" method="post"
+              style="max-width: 560px;">
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="campo">
+                <label for="nombreSap">Nombre SAP (como se llama la carpeta/ZIP)</label>
+                <input type="text" id="nombreSap" th:field="*{nombreSap}"
+                       placeholder="Ej. SH_0101 GO 309 1900773421 1900773424" required>
+                <span class="error-campo" th:if="${#fields.hasErrors('nombreSap')}"
+                      th:errors="*{nombreSap}"></span>
+            </div>
+
+            <div class="campo">
+                <label for="razonSocial">Razón social</label>
+                <input type="text" id="razonSocial" th:field="*{razonSocial}" required>
+                <span class="error-campo" th:if="${#fields.hasErrors('razonSocial')}"
+                      th:errors="*{razonSocial}"></span>
+            </div>
+
+            <div class="acciones">
+                <button type="submit" class="boton boton--primario">Guardar</button>
+                <a class="boton boton--secundario" th:href="@{/proveedores}">Volver</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

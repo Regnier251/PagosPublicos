@@ -1,0 +1,1 @@
+ALTER TABLE tramites_poliza ADD COLUMN archivo_poliza VARCHAR(500);

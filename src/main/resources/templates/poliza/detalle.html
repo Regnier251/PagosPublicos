@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/comunes :: cabecera('Detalle del trámite')}"></head>
+<body>
+
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+
+    <main class="contenedor">
+        <a th:href="@{/polizas}">← Volver a Trámites de póliza</a>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <h1 class="pagina__titulo" th:text="${tramite.nombreProveedorSap}"></h1>
+                <span class="etiqueta"
+                      th:classappend="${'etiqueta--' + #strings.toLowerCase(tramite.estatus)}"
+                      th:text="${tramite.estatus}"></span>
+            </div>
+            <a th:if="${tramite.archivoPoliza != null}"
+               class="boton boton--primario" target="_blank" rel="noopener"
+               th:href="@{'/polizas/' + ${tramite.id} + '/poliza.pdf'}">Visualizar póliza</a>
+        </div>
+
+        <div class="alerta alerta--advertencia" th:if="${tramite.archivoPoliza == null}">
+            Este trámite no tiene póliza detectada dentro del ZIP.
+        </div>
+
+        <h2 class="seccion-titulo" style="margin-top: 0;">Datos del trámite</h2>
+        <table class="tabla" style="max-width: 680px;">
+            <tbody>
+                <tr>
+                    <th style="width: 40%;">Persona que tramita</th>
+                    <td th:text="${tramite.personaTramite}"></td>
+                </tr>
+                <tr>
+                    <th>Referencia</th>
+                    <td th:text="${tramite.referencia}"></td>
+                </tr>
+                <tr>
+                    <th>Fecha de compensación</th>
+                    <td th:text="${#temporals.format(tramite.fechaCompensacion, 'dd/MM/yyyy')}"></td>
+                </tr>
+                <tr>
+                    <th>Fecha de carpeta (día hábil)</th>
+                    <td th:text="${#temporals.format(tramite.fechaCarpeta, 'dd/MM/yyyy')}"></td>
+                </tr>
+                <tr>
+                    <th>Corte</th>
+                    <td th:text="${tramite.sufijoCorte.isEmpty()} ? 'Matutino' : 'Vespertino'"></td>
+                </tr>
+                <tr>
+                    <th>Archivo de póliza</th>
+                    <td>
+                        <span th:if="${tramite.archivoPoliza != null}"
+                              th:text="${tramite.archivoPoliza}"></span>
+                        <span th:if="${tramite.archivoPoliza == null}"
+                              style="color: #b45309; font-weight: 600;">⚠ no detectada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Registrado</th>
+                    <td th:text="${#temporals.format(tramite.creadoEn, 'dd/MM/yyyy HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th>Ubicación en disco</th>
+                    <td style="font-size: 0.85rem; color: #64748b; word-break: break-all;"
+                        th:text="${tramite.rutaRelativa}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="seccion-titulo">Datos reconocidos en la póliza</h2>
+
+        <div class="alerta alerta--error" th:if="${errorLectura}" th:text="${errorLectura}"></div>
+
+        <div th:if="${datos != null}">
+            <table class="tabla" style="max-width: 720px;">
+                <tbody>
+                    <tr>
+                        <th style="width: 45%;">Folio del documento (SAP)</th>
+                        <td th:text="${datos.folioDocumento != null} ? ${datos.folioDocumento} : 'no reconocido'"></td>
+                    </tr>
+                    <tr>
+                        <th>Acreedor</th>
+                        <td th:text="${datos.numeroAcreedor != null} ?
+                            ${datos.numeroAcreedor + ' — ' + datos.nombreAcreedor} : 'no reconocido'"></td>
+                    </tr>
+                    <tr>
+                        <th>Fecha contable</th>
+                        <td th:text="${datos.fechaContable != null} ? ${datos.fechaContable} : 'no reconocida'"></td>
+                    </tr>
+                    <tr>
+                        <th>Total bruto (Debe/haber)</th>
+                        <td>
+                            <span th:if="${datos.totalDebeHaber != null}"
+                                  th:text="'$' + ${#numbers.formatDecimal(datos.totalDebeHaber, 1, 2)}"></span>
+                            <span th:if="${datos.totalDebeHaber == null}" style="color: #b45309;">no reconocido</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Retenciones</th>
+                        <td th:text="'−$' + ${#numbers.formatDecimal(datos.totalRetenciones, 1, 2)}"></td>
+                    </tr>
+                    <tr>
+                        <th style="font-weight: 700; color: #1e3a8a;">Neto a pagar (traspaso bancario)</th>
+                        <td style="font-weight: 700; color: #1e3a8a;">
+                            <span th:if="${datos.importeNetoPagar != null}"
+                                  th:text="'$' + ${#numbers.formatDecimal(datos.importeNetoPagar, 1, 2)}"></span>
+                            <span th:if="${datos.importeNetoPagar == null}" style="color: #b45309;">no reconocido</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Verificación contable</th>
+                        <td>
+                            <span class="etiqueta etiqueta--aplicada" th:if="${datos.montosCuadran}">
+                                ✓ Cuadra — bruto − retenciones = neto
+                            </span>
+                            <span class="etiqueta etiqueta--cancelado" th:if="${!datos.montosCuadran}">
+                                ⚠ No cuadra — revisar montos
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Beneficiario de la transferencia</th>
+                        <td th:text="${datos.cuentaBeneficiario != null} ?
+                            ${datos.cuentaBeneficiario + ' — ' + datos.nombreBeneficiario} : 'no reconocido'"></td>
+                    </tr>
+                    <tr>
+                        <th>Referencia</th>
+                        <td th:text="${datos.referencia != null} ? ${datos.referencia} : '—'"></td>
+                    </tr>
+                    <tr>
+                        <th>Texto de cabecera</th>
+                        <td th:text="${datos.textoCabecera != null} ? ${datos.textoCabecera} : '—'"></td>
+                    </tr>
+                    <tr>
+                        <th>Texto explicativo</th>
+                        <td th:text="${datos.textoExplicativo != null} ? ${datos.textoExplicativo} : '—'"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <details style="margin-top: 1rem;">
+                <summary style="cursor: pointer; font-weight: 600; color: #1e3a8a;">
+                    Ver texto crudo del PDF (diagnóstico)
+                </summary>
+                <pre style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;
+                            padding: 1rem; margin-top: 0.5rem; font-size: 0.8rem;
+                            white-space: pre-wrap; word-break: break-word; max-height: 420px;
+                            overflow-y: auto;"
+                     th:text="${textoPoliza}"></pre>
+            </details>
+        </div>
+
+        <div th:if="${datos == null and errorLectura == null}"
+             class="fila-vacia"
+             style="text-align: center; color: #64748b; padding: 2rem; border: 1px dashed #cbd5e1; border-radius: 12px; max-width: 680px;">
+            Este trámite no tiene póliza detectada, no hay datos que extraer.
+        </div>
+    </main>
+</body>
+</html>

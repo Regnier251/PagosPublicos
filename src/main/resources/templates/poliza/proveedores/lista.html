@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/comunes :: cabecera('Proveedores SAP')}"></head>
+<body>
+
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+
+    <main class="contenedor">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <h1 class="pagina__titulo">Proveedores SAP</h1>
+                <p class="pagina__subtitulo">Catálogo para reconocer los nombres de carpeta/ZIP del trámite</p>
+            </div>
+            <a class="boton boton--primario" th:href="@{/proveedores/nuevo}">+ Nuevo proveedor</a>
+        </div>
+
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>Nombre SAP</th>
+                    <th>Razón social</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${proveedores}">
+                    <td th:text="${p.nombreSap}"></td>
+                    <td th:text="${p.razonSocial}"></td>
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(p.estatus)}"
+                              th:text="${p.estatus}"></span>
+                    </td>
+                    <td>
+                        <div class="acciones">
+                            <a class="boton boton--secundario"
+                               th:href="@{'/proveedores/' + ${p.id} + '/editar'}">Editar</a>
+                            <form th:action="@{'/proveedores/' + ${p.id} + '/cambiar-estatus'}"
+                                  method="post" style="display: inline;"
+                                  th:data-confirmar="${p.estatus.name() == 'ACTIVO'} ?
+                                      '¿Desactivar este proveedor?' : '¿Activar este proveedor?'"
+                                  th:data-confirmar-peligro="${p.estatus.name() == 'ACTIVO'} ? 'true' : null">
+                                <button type="submit" class="boton"
+                                        th:classappend="${p.estatus.name() == 'ACTIVO'} ? 'boton--peligro' : 'boton--secundario'"
+                                        th:text="${p.estatus.name() == 'ACTIVO'} ? 'Desactivar' : 'Activar'"></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="fila-vacia" th:if="${#lists.isEmpty(proveedores)}">
+                    <td colspan="4">No hay proveedores registrados aún.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

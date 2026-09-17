@@ -90,6 +90,7 @@
 .alerta { padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: 8px; font-weight: 500; }
 .alerta--exito { background-color: #f0fdf4; color: #15803d; border: 1px solid #15803d; }
 .alerta--error { background-color: #fef2f2; color: #b91c1c; border: 1px solid #b91c1c; }
+.alerta--advertencia { background-color: #fef3c7; color: #b45309; border: 1px solid #b45309; }
 
 /* ---------- Etiquetas de estatus ---------- */
 .etiqueta {

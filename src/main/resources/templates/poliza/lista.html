@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/comunes :: cabecera-archivo('Trámites de póliza')}"></head>
+<body th:data-exito="${exito}" th:data-error="${error}">
+
+    <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
+
+    <main class="contenedor">
+        <div class="alerta alerta--advertencia" th:if="${advertencia}" th:text="${advertencia}"></div>
+        <h1 class="pagina__titulo">Trámites de póliza</h1>
+        <p class="pagina__subtitulo">
+            Suelta el ZIP del proveedor y el sistema arma la estructura en «Tramites de pagos»
+        </p>
+
+        <form id="form-subida" th:action="@{/polizas}" th:object="${form}" method="post"
+              enctype="multipart/form-data" style="margin-bottom: 2rem;">
+
+            <div class="errores-globales" th:if="${#fields.hasErrors('*')}">
+                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+            </div>
+
+            <div class="zona-arrastre" id="zona-arrastre" tabindex="0" role="button"
+                 aria-label="Arrastra aquí el ZIP del proveedor o haz clic para seleccionarlo">
+                <div class="zona-arrastre__contenido">
+                    <span class="zona-arrastre__icono">📦</span>
+                    <p class="zona-arrastre__texto" id="texto-archivo">Arrastra el ZIP del proveedor aquí</p>
+                    <p class="zona-arrastre__ayuda">o haz clic para seleccionarlo — máximo 25 MB</p>
+                    <p class="zona-arrastre__archivo" id="archivo-seleccionado"></p>
+                </div>
+                <input type="file" id="input-archivo" th:field="*{archivo}" accept=".zip" hidden>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; align-items: flex-end;">
+                <div class="campo" style="flex: 2; min-width: 200px; margin-bottom: 0;">
+                    <label for="persona">Persona que tramita</label>
+                    <input type="text" id="persona" th:field="*{persona}" required>
+                    <span class="error-campo" th:if="${#fields.hasErrors('persona')}" th:errors="*{persona}"></span>
+                </div>
+                <div class="campo" style="flex: 1; min-width: 120px; margin-bottom: 0;">
+                    <label for="referencia">Referencia</label>
+                    <input type="text" id="referencia" th:field="*{referencia}" required>
+                    <span class="error-campo" th:if="${#fields.hasErrors('referencia')}" th:errors="*{referencia}"></span>
+                </div>
+                <div class="campo" style="flex: 1; min-width: 160px; margin-bottom: 0;">
+                    <label for="fechaCompensacion">Fecha de compensación</label>
+                    <input type="date" id="fechaCompensacion" th:field="*{fechaCompensacion}" required>
+                    <span class="error-campo" th:if="${#fields.hasErrors('fechaCompensacion')}" th:errors="*{fechaCompensacion}"></span>
+                </div>
+                <button type="submit" class="boton boton--primario">Registrar trámite</button>
+            </div>
+        </form>
+
+        <h2 class="seccion-titulo">Trámites recientes</h2>
+                <table class="tabla">
+            <thead>
+                <tr>
+                    <th>Proveedor (SAP)</th>
+                    <th>Póliza</th>
+                    <th>Estatus</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${tramites}">
+                    <td th:text="${t.nombreProveedorSap}"></td>
+                    <td>
+                        <span th:if="${t.archivoPoliza != null}" th:text="${t.archivoPoliza}"></span>
+                        <span th:if="${t.archivoPoliza == null}"
+                              style="color: #b45309; font-weight: 600;">⚠ no detectada</span>
+                    </td>
+                    <td>
+                        <span class="etiqueta"
+                              th:classappend="${'etiqueta--' + #strings.toLowerCase(t.estatus)}"
+                              th:text="${t.estatus}"></span>
+                    </td>
+                    <td>
+                        <a class="boton boton--primario"
+                           th:href="@{'/polizas/' + ${t.id}}">Ver detalle</a>
+                    </td>
+                </tr>
+                <tr class="fila-vacia" th:if="${#lists.isEmpty(tramites)}">
+                    <td colspan="4">Aún no hay trámites registrados.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script th:src="@{/js/archivo-subida.js}" defer></script>
+</body>
+</html>
