@@ -175,4 +175,13 @@ public class TramitePolizaService {
     public PolizaDatos datosPoliza(TramitePoliza tramite) {
         return parserPoliza.parsear(lectorPoliza.extraerTexto(rutaAbsolutaPoliza(tramite)));
     }
+    
+    public TramitePoliza buscarPorNombreProveedor(String nombre) {
+        return repository.findFirstByNombreProveedorSapIgnoreCaseOrderByIdDesc(nombre.strip())
+                .orElse(null);
+    }
+
+    public java.util.List<TramitePoliza> buscarPorFragmentoProveedor(String fragmento) {
+        return repository.findByNombreProveedorSapContainingIgnoreCase(fragmento.strip());
+    }
 }

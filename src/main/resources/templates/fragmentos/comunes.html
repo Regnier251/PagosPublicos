@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <!-- Cabecera del login: SOLO la usa seguridad/login.html -->
+    <head th:fragment="cabecera-seguridad(titulo)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
+        <link rel="stylesheet" th:href="@{/librerias/remixicon/remixicon.css}">
+        <link rel="stylesheet" th:href="@{/css/base.css}">
+        <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/css/seguridad-login.css}">
+    </head>
+
+    
     <!-- Cabecera estándar: la usan TODAS las páginas internas -->
     <head th:fragment="cabecera(titulo)">
         <meta charset="UTF-8">
@@ -9,8 +21,10 @@
         <link rel="stylesheet" th:href="@{/css/base.css}">
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
         <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/css/chatbot-panel.css}">
         <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
         <script th:src="@{/js/alertas.js}" defer></script>
+        <script th:src="@{/js/chatbot-panel.js}" defer></script>
     </head>
 
     <!-- Cabecera del inicio: SOLO home.html (agrega Swiper y home.css) -->
@@ -22,8 +36,10 @@
         <link rel="stylesheet" th:href="@{/css/base.css}">
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
         <link rel="stylesheet" th:href="@{/css/componentes.css}">
+        <link rel="stylesheet" th:href="@{/css/chatbot-panel.css}">
         <link rel="stylesheet" th:href="@{/librerias/swiper/swiper-bundle.min.css}">
         <link rel="stylesheet" th:href="@{/css/home.css}">
+        <script th:src="@{/js/chatbot-panel.js}" defer></script>
     </head>
 
     <!-- Cabecera del formulario de compensación: SOLO compensacion/formulario.html -->
@@ -36,8 +52,10 @@
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
         <link rel="stylesheet" th:href="@{/css/componentes.css}">
         <link rel="stylesheet" th:href="@{/css/compensacion-formulario.css}">
+        <link rel="stylesheet" th:href="@{/css/chatbot-panel.css}">
         <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
         <script th:src="@{/js/alertas.js}" defer></script>
+        <script th:src="@{/js/chatbot-panel.js}" defer></script>
     </head>
 
     <!-- Cabecera de páginas con zona de arrastre: SOLO la usa poliza/lista.html -->
@@ -50,19 +68,10 @@
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
         <link rel="stylesheet" th:href="@{/css/componentes.css}">
         <link rel="stylesheet" th:href="@{/css/zona-arrastre.css}">
+        <link rel="stylesheet" th:href="@{/css/chatbot-panel.css}">
         <script th:src="@{/librerias/sweetalert2/sweetalert2.all.min.js}" defer></script>
         <script th:src="@{/js/alertas.js}" defer></script>
-    </head>
-
-    <!-- Cabecera del login: SOLO la usa seguridad/login.html -->
-    <head th:fragment="cabecera-seguridad(titulo)">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title th:text="${titulo} + ' · Pagos Públicos'">Pagos Públicos</title>
-        <link rel="stylesheet" th:href="@{/librerias/remixicon/remixicon.css}">
-        <link rel="stylesheet" th:href="@{/css/base.css}">
-        <link rel="stylesheet" th:href="@{/css/componentes.css}">
-        <link rel="stylesheet" th:href="@{/css/seguridad-login.css}">
+        <script th:src="@{/js/chatbot-panel.js}" defer></script>
     </head>
 
     <!-- Cabecera de indicadores: SOLO la usa kpi/index.html
@@ -76,8 +85,10 @@
         <link rel="stylesheet" th:href="@{/css/navbar.css}">
         <link rel="stylesheet" th:href="@{/css/componentes.css}">
         <link rel="stylesheet" th:href="@{/css/kpi.css}">
+        <link rel="stylesheet" th:href="@{/css/chatbot-panel.css}">
         <script th:src="@{/librerias/chartjs/chart.umd.min.js}" defer></script>
         <script th:src="@{/js/kpi.js}" defer></script>
+        <script th:src="@{/js/chatbot-panel.js}" defer></script>
     </head>
 
     <body>
