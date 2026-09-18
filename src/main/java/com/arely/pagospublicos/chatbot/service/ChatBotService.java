@@ -13,9 +13,6 @@ public class ChatBotService {
 
     private static final int MAX_RONDAS = 3;
 
-    private static final org.slf4j.Logger log =
-            org.slf4j.LoggerFactory.getLogger(ChatBotService.class);
-
     private static final String PROMPT_SISTEMA = """
             Eres el asistente interno del sistema de trámites de pago «Pagos Públicos».
             Reglas:
