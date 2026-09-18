@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TramitePolizaRepository extends JpaRepository<TramitePoliza, Long> {
 
     boolean existsBySumaVerificacion(String sumaVerificacion);
+
+    long countByCreadoEnBetween(java.time.LocalDateTime desde, java.time.LocalDateTime hasta);
 }

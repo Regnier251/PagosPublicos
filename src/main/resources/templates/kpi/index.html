@@ -24,8 +24,8 @@
                 <span class="resumen-tarjeta__titulo">Compensaciones aplicadas</span>
             </div>
             <div class="resumen-tarjeta">
-                <span class="resumen-tarjeta__numero" th:text="${archivosMesActual}"></span>
-                <span class="resumen-tarjeta__titulo">ZIPs recibidos este mes</span>
+                <span class="resumen-tarjeta__numero" th:text="${tramitesMesActual}"></span>
+                <span class="resumen-tarjeta__titulo">Trámites registrados este mes</span>
             </div>
         </div>
 
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="kpi-grafica">
-                <h3>ZIPs recibidos (últimos 6 meses)</h3>
+                <h3>Trámites registrados (últimos 6 meses)</h3>
                 <div class="kpi-grafica__lienzo">
                     <canvas id="grafica-archivos"></canvas>
                 </div>
@@ -52,7 +52,7 @@
                 docsCompensados:   /*[[${docsCompensados}]]*/        0,
                 docsCancelados:    /*[[${docsCancelados}]]*/         0,
                 etiquetasMeses:    /*[[${etiquetasMeses}]]*/         [],
-                archivosPorMes:    /*[[${archivosPorMes}]]*/         []
+                tramitesPorMes:    /*[[${tramitesPorMes}]]*/         []
             };
         </script>
     </main>

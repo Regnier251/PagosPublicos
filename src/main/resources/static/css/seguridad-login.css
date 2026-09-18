@@ -1,34 +1,212 @@
 /* ============================================================
-   seguridad-login.css — EXCLUSIVO de seguridad/login.html
+   seguridad-login.css — EXCLUSIVO de seguridad/login.html.
+   Diseño adaptado de Bedimcode (blob SVG + labels flotantes),
+   scoping bajo .login-pagina para no afectar el resto del sitio.
+   Contratos intactos: name=username/password, form a POST /seguridad.
    ============================================================ */
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+
+:root {
+  --login-primario: hsl(208, 92%, 54%);
+  --login-primario-alt: hsl(208, 88%, 50%);
+  --login-titulo: hsl(220, 68%, 4%);
+  --login-blanco: hsl(0, 0%, 100%);
+  --login-texto: hsl(220, 15%, 66%);
+  --login-contenedor: hsl(220, 50%, 97%);
+
+  --login-fuente: "Montserrat", system-ui;
+  --login-fuente-grande: 1.5rem;
+  --login-fuente-normal: .938rem;
+  --login-fuente-peque: .813rem;
+  --login-fuente-mini: .688rem;
+}
+
+@media screen and (min-width: 1150px) {
+  :root {
+    --login-fuente-grande: 3rem;
+    --login-fuente-normal: 1rem;
+    --login-fuente-peque: .875rem;
+    --login-fuente-mini: .75rem;
+  }
+}
+
+/*=============== BASE (scoped) ===============*/
+.login-pagina,
+.login-pagina input,
+.login-pagina button {
+  font-family: var(--login-fuente);
+  font-size: var(--login-fuente-normal);
+}
+
 .login-pagina {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem 1rem;
+  background-color: var(--login-blanco);
+  color: var(--login-texto);
 }
 
-.login-tarjeta {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 400px;
+.login-pagina input,
+.login-pagina button {
+  border: none;
+  outline: none;
 }
 
-.login-tarjeta h1 {
-    font-size: 1.4rem;
-    color: #1e3a8a;
-    text-align: center;
+/*=============== LAYOUT ===============*/
+.login {
+  position: relative;
+  height: 100vh;
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+  overflow: hidden;
 }
 
-.login-tarjeta > p {
-    text-align: center;
-    color: #64748b;
-    font-size: 0.9rem;
-    margin: 0.5rem 0 1.5rem;
+.login__blob {
+  display: none;
+}
+
+.login__title {
+  font-size: var(--login-fuente-grande);
+  color: var(--login-titulo);
+  margin-bottom: 2rem;
+}
+
+/*=============== CAMPOS ===============*/
+.login__box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--login-contenedor);
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.login__input {
+  background: none;
+  width: 100%;
+  padding: 1.5rem 2.5rem 1.5rem 1.25rem;
+  font-weight: 600;
+  border: 3px solid transparent;
+  border-radius: 1rem;
+  z-index: 1;
+  transition: border-color .4s;
+}
+
+.login__input:autofill {
+  transition: background-color 6000s, color 6000s;
+}
+
+.login__label {
+  position: absolute;
+  left: 1.25rem;
+  font-weight: 600;
+  transition: transform .4s, font-size .4s, color .4s;
+  pointer-events: none;
+}
+
+.login__icon {
+  position: absolute;
+  right: 1rem;
+  font-size: 1.25rem;
+  transition: color .4s;
+}
+
+.login__password {
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Label flotante: con foco o con contenido */
+.login__input:focus ~ .login__label {
+  transform: translateY(-12px);
+  font-size: var(--login-fuente-mini);
+}
+
+.login__input:focus {
+  padding-block: 2rem 1rem;
+}
+
+.login__input:not(:placeholder-shown).login__input:not(:focus) ~ .login__label {
+  transform: translateY(-12px);
+  font-size: var(--login-fuente-mini);
+}
+
+.login__input:not(:placeholder-shown).login__input:not(:focus) {
+  padding-block: 2rem 1rem;
+}
+
+.login__input:focus {
+  border-color: var(--login-primario);
+}
+
+.login__input:focus ~ .login__label,
+.login__input:focus ~ .login__icon {
+  color: var(--login-primario);
+}
+
+/*=============== BOTÓN ===============*/
+.login__button {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  background-color: var(--login-primario);
+  color: var(--login-blanco);
+  font-weight: 600;
+  padding-block: 1.25rem;
+  border-radius: 4rem;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: background-color .4s, box-shadow .4s;
+}
+
+.login__button:hover {
+  background-color: var(--login-primario-alt);
+  box-shadow: 0 8px 24px hsla(208, 92%, 32%, .3);
+}
+
+/*=============== PIES ===============*/
+.login__pie {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: var(--login-fuente-peque);
+  color: var(--login-texto);
+}
+
+/*=============== ALERTAS (sistema de siempre) ===============*/
+.login-pagina .alerta {
+  margin-bottom: 1rem;
+  font-size: var(--login-fuente-peque);
+}
+
+/*=============== RESPONSIVE ===============*/
+@media screen and (min-width: 540px) {
+  .login__area {
+    width: 380px;
+    margin-inline: auto;
+  }
+}
+
+@media screen and (min-width: 350px) and (max-height: 600px) {
+  .login {
+    height: 760px;
+  }
+}
+
+@media screen and (min-width: 1150px) {
+  .login__area {
+    width: 460px;
+    margin: 0;
+  }
+  .login__title {
+    margin-bottom: 3rem;
+  }
+  .login__blob {
+    display: block;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .login__img {
+    transform: translate(0, 0);
+  }
 }

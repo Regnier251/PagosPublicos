@@ -5,7 +5,7 @@
 
     <div class="home-dashboard">
         <header class="home-header">
-            <span class="home-badge">Título del proyecto</span>
+            <span class="home-badge">Sistema de trámites de pago</span>
             <h1>Pagos Públicos</h1>
             <p>Desliza para explorar los módulos disponibles</p>
         </header>
@@ -13,7 +13,32 @@
         <div class="swiper home-carrusel">
             <div class="swiper-wrapper">
 
-                <!-- Módulo: Terceros (disponible) -->
+                <div class="swiper-slide">
+                    <a th:href="@{/polizas}" class="home-tarjeta">
+                        <div class="home-tarjeta__cabecera">
+                            <div class="home-tarjeta__icono">📄</div>
+                        </div>
+                        <div class="home-tarjeta__contenido">
+                            <h3>Pólizas</h3>
+                            <p>Recepción de ZIPs, armado de carpetas y lectura de pólizas.</p>
+                        </div>
+                        <span class="home-tarjeta__flecha">→</span>
+                    </a>
+                </div>
+
+                <div class="swiper-slide">
+                    <a th:href="@{/proveedores}" class="home-tarjeta">
+                        <div class="home-tarjeta__cabecera">
+                            <div class="home-tarjeta__icono">🏢</div>
+                        </div>
+                        <div class="home-tarjeta__contenido">
+                            <h3>Proveedores</h3>
+                            <p>Catálogo SAP para el reconocimiento de trámites.</p>
+                        </div>
+                        <span class="home-tarjeta__flecha">→</span>
+                    </a>
+                </div>
+
                 <div class="swiper-slide">
                     <a th:href="@{/terceros}" class="home-tarjeta">
                         <div class="home-tarjeta__cabecera">
@@ -21,69 +46,12 @@
                         </div>
                         <div class="home-tarjeta__contenido">
                             <h3>Terceros</h3>
-                            <p>Administración de clientes y proveedores, con sus cuentas y documentos.</p>
+                            <p>Contexto contable: clientes, proveedores, documentos y compensaciones.</p>
                         </div>
                         <span class="home-tarjeta__flecha">→</span>
                     </a>
                 </div>
 
-                <!-- Módulo: Archivos (disponible) -->
-                <div class="swiper-slide">
-                    <a th:href="@{/archivos}" class="home-tarjeta">
-                        <div class="home-tarjeta__cabecera">
-                            <div class="home-tarjeta__icono">📦</div>
-                        </div>
-                        <div class="home-tarjeta__contenido">
-                            <h3>Archivos</h3>
-                            <p>Recepción de comprimidos ZIP con las compensaciones.</p>
-                        </div>
-                        <span class="home-tarjeta__flecha">→</span>
-                    </a>
-                </div>
-
-                <!-- Módulo: Compensación (disponible) -->
-                <!-- <div class="swiper-slide">
-                    <a th:href="@{/compensacion}" class="home-tarjeta">
-                        <div class="home-tarjeta__cabecera">
-                            <div class="home-tarjeta__icono">⚖️</div>
-                        </div>
-                        <div class="home-tarjeta__contenido">
-                            <h3>Compensación</h3>
-                            <p>Gestión y registro de compensaciones contables.</p>
-                        </div>
-                        <span class="home-tarjeta__flecha">→</span>
-                    </a>
-                </div> -->
-
-                <!-- Módulo: Tesorería (próximamente) -->
-                <div class="swiper-slide">
-                    <div class="home-tarjeta home-tarjeta--proximamente">
-                        <div class="home-tarjeta__cabecera">
-                            <div class="home-tarjeta__icono">🏦</div>
-                            <span class="home-tarjeta__proximo">Próximamente</span>
-                        </div>
-                        <div class="home-tarjeta__contenido">
-                            <h3>Tesorería</h3>
-                            <p>Control de flujo de caja y cuentas bancarias.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Módulo: Reportes (próximamente) -->
-                <!-- <div class="swiper-slide">
-                    <div class="home-tarjeta home-tarjeta--proximamente">
-                        <div class="home-tarjeta__cabecera">
-                            <div class="home-tarjeta__icono">📊</div>
-                            <span class="home-tarjeta__proximo">Próximamente</span>
-                        </div>
-                        <div class="home-tarjeta__contenido">
-                            <h3>Reportes</h3>
-                            <p>Generación de balances y estados financieros.</p>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Módulo: Indicadores (disponible) -->
                 <div class="swiper-slide">
                     <a th:href="@{/kpis}" class="home-tarjeta">
                         <div class="home-tarjeta__cabecera">
@@ -105,7 +73,6 @@
         </div>
     </div>
 
-    <!-- Scripts de esta página: la librería primero, la inicialización después -->
     <script th:src="@{/librerias/swiper/swiper-bundle.min.js}" defer></script>
     <script th:src="@{/js/home.js}" defer></script>
 </body>

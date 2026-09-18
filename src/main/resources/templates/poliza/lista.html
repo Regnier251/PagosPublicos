@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragmentos/comunes :: cabecera-archivo('Trámites de póliza')}"></head>
+<head th:replace="~{fragmentos/comunes :: cabecera-zona-arrastre('Trámites de póliza')}"></head>
 <body th:data-exito="${exito}" th:data-error="${error}">
 
     <nav th:replace="~{fragmentos/comunes :: menu}"></nav>
@@ -80,6 +80,6 @@
         </table>
     </main>
 
-    <script th:src="@{/js/archivo-subida.js}" defer></script>
+    <script th:src="@{/js/zona-arrastre.js}" defer></script>
 </body>
 </html>

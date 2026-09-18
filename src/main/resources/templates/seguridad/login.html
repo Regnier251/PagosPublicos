@@ -3,30 +3,61 @@
 <head th:replace="~{fragmentos/comunes :: cabecera-seguridad('Iniciar sesión')}"></head>
 <body class="login-pagina">
 
-    <div class="login-tarjeta">
-        <h1>Pagos Públicos</h1>
-        <p>Ingresa tus credenciales para continuar</p>
+    <!--=============== IMAGEN DEL BLOB ===============-->
+    <svg class="login__blob" viewBox="0 0 566 840" xmlns="http://www.w3.org/2000/svg">
+        <mask id="mask0" mask-type="alpha">
+            <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+            0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+            591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+            167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+        </mask>
+        <g mask="url(#mask0)">
+            <path d="M342.407 73.6315C388.53 56.4007 394.378 17.3643 391.538 
+            0H566V840H0C14.5385 834.991 100.266 804.436 77.2046 707.263C49.6393 
+            591.11 115.306 518.927 176.468 488.873C363.385 397.026 156.98 302.824 
+            167.945 179.32C173.46 117.209 284.755 95.1699 342.407 73.6315Z"/>
+            <image class="login__img" th:href="@{/img/login-bg.jpg}"
+             preserveAspectRatio="xMidYMid slice"/>
+        </g>
+    </svg>
 
-        <div class="alerta alerta--error" th:if="${param.error}">
-            Usuario o contraseña incorrectos
-        </div>
-        <div class="alerta alerta--exito" th:if="${param.logout}">
-            Sesión cerrada correctamente
-        </div>
+    <!--=============== LOGIN ===============-->
+    <div class="login container">
+        <div class="login__area">
+            <h1 class="login__title">Inicia sesión en tu cuenta</h1>
 
-        <form th:action="@{/seguridad}" method="post">
-            <div class="campo">
-                <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" required autofocus
-                       autocomplete="username">
+            <div class="alerta alerta--error" th:if="${param.error}">
+                Usuario o contraseña incorrectos, o cuenta desactivada
             </div>
-            <div class="campo">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required
-                       autocomplete="current-password">
+            <div class="alerta alerta--exito" th:if="${param.logout}">
+                Sesión cerrada correctamente
             </div>
-            <button type="submit" class="boton boton--primario" style="width: 100%;">Entrar</button>
-        </form>
+
+            <!-- Contratos intactos: POST /seguridad + username/password -->
+            <form th:action="@{/seguridad}" method="post" class="login__form">
+                <div class="login__box">
+                    <input type="text" id="username" name="username" required
+                           placeholder=" " class="login__input" autofocus
+                           autocomplete="username">
+                    <label for="username" class="login__label">Usuario</label>
+                    <i class="ri-user-fill login__icon"></i>
+                </div>
+
+                <div class="login__box">
+                    <input type="password" id="password" name="password" required
+                           placeholder=" " class="login__input"
+                           autocomplete="current-password">
+                    <label for="password" class="login__label">Contraseña</label>
+                    <i class="ri-eye-off-fill login__icon login__password" id="loginPassword"></i>
+                </div>
+
+                <button type="submit" class="login__button">Entrar</button>
+            </form>
+
+            <p class="login__pie">¿Olvidaste tu contraseña? Contacta al administrador</p>
+        </div>
     </div>
+
+    <script th:src="@{/js/seguridad-login.js}" defer></script>
 </body>
 </html>

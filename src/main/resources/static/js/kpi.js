@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: DATOS_KPI.etiquetasMeses,
             datasets: [{
-                label: 'ZIPs recibidos',
-                data: DATOS_KPI.archivosPorMes,
+                label: 'Trámites registrados',
+                data: DATOS_KPI.tramitesPorMes,
                 backgroundColor: '#1e3a8a',
                 borderRadius: 6,
                 maxBarThickness: 48,

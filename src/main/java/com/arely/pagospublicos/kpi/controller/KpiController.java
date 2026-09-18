@@ -19,20 +19,17 @@ public class KpiController {
 
     @GetMapping("/kpis")
     public String index(Model model) {
-        // Tarjetas
         model.addAttribute("tercerosActivos", service.tercerosActivos());
         model.addAttribute("compensacionesAplicadas", service.compensacionesAplicadas());
-        model.addAttribute("archivosMesActual", service.archivosRecibidosMesActual());
+        model.addAttribute("tramitesMesActual", service.tramitesMesActual());
 
-        // Dona: documentos por estatus
         model.addAttribute("docsVigentes", service.documentosVigentes());
         model.addAttribute("docsCompensados", service.documentosCompensados());
         model.addAttribute("docsCancelados", service.documentosCancelados());
 
-        // Barras: serie de 6 meses (separada en etiquetas y valores para el gráfico)
-        List<SerieMes> serie = service.archivosUltimos6Meses();
+        List<SerieMes> serie = service.tramitesUltimos6Meses();
         model.addAttribute("etiquetasMeses", serie.stream().map(SerieMes::etiqueta).toList());
-        model.addAttribute("archivosPorMes", serie.stream().map(SerieMes::valor).toList());
+        model.addAttribute("tramitesPorMes", serie.stream().map(SerieMes::valor).toList());
 
         return "kpi/index";
     }

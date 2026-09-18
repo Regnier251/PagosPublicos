@@ -1,8 +1,8 @@
 package com.arely.pagospublicos.kpi.service;
 
-import com.arely.pagospublicos.archivo.repository.ArchivoZipRepository;
 import com.arely.pagospublicos.compensacion.model.EstatusCompensacion;
 import com.arely.pagospublicos.compensacion.repository.CompensacionRepository;
+import com.arely.pagospublicos.poliza.repository.TramitePolizaRepository;
 import com.arely.pagospublicos.tercero.model.EstatusDocumento;
 import com.arely.pagospublicos.tercero.model.EstatusTercero;
 import com.arely.pagospublicos.tercero.repository.DocumentoRepository;
@@ -24,19 +24,18 @@ public class KpiService {
     private final TerceroRepository terceroRepository;
     private final DocumentoRepository documentoRepository;
     private final CompensacionRepository compensacionRepository;
-    private final ArchivoZipRepository archivoRepository;
+    private final TramitePolizaRepository tramitePolizaRepository;
 
     public KpiService(TerceroRepository terceroRepository,
                       DocumentoRepository documentoRepository,
                       CompensacionRepository compensacionRepository,
-                      ArchivoZipRepository archivoRepository) {
+                      TramitePolizaRepository tramitePolizaRepository) {
         this.terceroRepository = terceroRepository;
         this.documentoRepository = documentoRepository;
         this.compensacionRepository = compensacionRepository;
-        this.archivoRepository = archivoRepository;
+        this.tramitePolizaRepository = tramitePolizaRepository;
     }
 
-    /** El módulo real decidirá qué KPIs quedan; estos son los del esqueleto. */
     public long tercerosActivos() {
         return terceroRepository.countByEstatus(EstatusTercero.ACTIVO);
     }
@@ -57,22 +56,21 @@ public class KpiService {
         return compensacionRepository.countByEstatus(EstatusCompensacion.APLICADA);
     }
 
-    public long archivosRecibidosMesActual() {
+    public long tramitesMesActual() {
         YearMonth actual = YearMonth.now();
-        return archivoRepository.countBySubidoEnBetween(
+        return tramitePolizaRepository.countByCreadoEnBetween(
                 actual.atDay(1).atStartOfDay(),
                 actual.atEndOfMonth().atTime(LocalTime.MAX));
     }
 
     public record SerieMes(String etiqueta, long valor) {}
 
-    /** Serie de los últimos 6 meses (incluido el actual) de ZIPs recibidos. */
-    public List<SerieMes> archivosUltimos6Meses() {
+    public List<SerieMes> tramitesUltimos6Meses() {
         List<SerieMes> serie = new ArrayList<>();
         YearMonth actual = YearMonth.now();
         for (int i = 5; i >= 0; i--) {
             YearMonth mes = actual.minusMonths(i);
-            long conteo = archivoRepository.countBySubidoEnBetween(
+            long conteo = tramitePolizaRepository.countByCreadoEnBetween(
                     mes.atDay(1).atStartOfDay(),
                     mes.atEndOfMonth().atTime(LocalTime.MAX));
             String etiqueta = mes.getMonth().getDisplayName(TextStyle.SHORT, ESPANOL_MX)
