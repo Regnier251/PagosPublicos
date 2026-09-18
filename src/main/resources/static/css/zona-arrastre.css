@@ -12,12 +12,12 @@
     cursor: pointer;
     transition: all 0.2s ease;
 }
-.zona-arrastre:hover { border-color: #1e3a8a; }
+.zona-arrastre:hover { border-color: #0F2C59; }
 
 /* Estado: archivo arrastrándose POR ENCIMA de la zona */
 .zona-arrastre--sobre {
-    border-color: #1e3a8a;
-    background-color: #eef2ff;
+    border-color: #0F2C59;
+    background-color: #E8EEF6;
     transform: scale(1.01);
 }
 
@@ -33,6 +33,6 @@
 .zona-arrastre__contenido { pointer-events: none; }
 
 .zona-arrastre__icono { font-size: 2.2rem; }
-.zona-arrastre__texto { font-weight: 600; margin-top: 0.5rem; color: #1e3a8a; }
+.zona-arrastre__texto { font-weight: 600; margin-top: 0.5rem; color: #0F2C59; }
 .zona-arrastre__ayuda { font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; }
-.zona-arrastre__archivo { font-size: 0.9rem; color: #15803d; margin-top: 0.5rem; font-weight: 600; }
+.zona-arrastre__archivo { font-size: 0.9rem; color: #0D9488; margin-top: 0.5rem; font-weight: 600; }

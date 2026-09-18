@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             labels: ['Vigentes', 'Compensados', 'Cancelados'],
             datasets: [{
                 data: [DATOS_KPI.docsVigentes, DATOS_KPI.docsCompensados, DATOS_KPI.docsCancelados],
-                backgroundColor: ['#15803d', '#1e3a8a', '#b91c1c'],
+                backgroundColor: ['#0D9488', '#0F2C59', '#b91c1c'],
                 borderWidth: 2,
                 borderColor: '#ffffff',
             }]
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             datasets: [{
                 label: 'Trámites registrados',
                 data: DATOS_KPI.tramitesPorMes,
-                backgroundColor: '#1e3a8a',
+                backgroundColor: '#0F2C59',
                 borderRadius: 6,
                 maxBarThickness: 48,
             }]

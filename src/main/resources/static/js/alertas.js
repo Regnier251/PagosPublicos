@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showCancelButton: true,
                 confirmButtonText: 'Sí, continuar',
                 cancelButtonText: 'Cancelar',
-                confirmButtonColor: esPeligroso ? '#b91c1c' : '#1e3a8a',
+                confirmButtonColor: esPeligroso ? '#b91c1c' : '#0D9488',
                 cancelButtonColor: '#64748b',
                 reverseButtons: true,
             }).then((resultado) => {

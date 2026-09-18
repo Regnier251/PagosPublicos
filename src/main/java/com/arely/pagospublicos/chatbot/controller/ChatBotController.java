@@ -2,6 +2,7 @@ package com.arely.pagospublicos.chatbot.controller;
 
 import com.arely.pagospublicos.chatbot.service.ChatBotService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,7 +24,9 @@ public class ChatBotController {
     }
 
     @GetMapping("/consultar")
-    public String consultar(@RequestParam String pregunta, HttpSession session) {
+    public String consultar(@RequestParam String pregunta,
+                            Authentication authentication,
+                            HttpSession session) {
         Object historialSesion = session.getAttribute("chat_historial");
         List<Map<String, Object>> historial = new ArrayList<>();
         if (historialSesion instanceof List<?> lista) {
@@ -40,7 +43,8 @@ public class ChatBotController {
             }
         }
 
-        String respuesta = service.conversar(pregunta, historial);
+        // El nombre del usuario autenticado va al service → termina en chat_consultas
+        String respuesta = service.conversar(pregunta, historial, authentication.getName());
 
         historial.add(Map.of("role", "user", "content", pregunta));
         historial.add(Map.of("role", "assistant", "content", respuesta));

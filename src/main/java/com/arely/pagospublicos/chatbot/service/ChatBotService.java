@@ -13,35 +13,48 @@ public class ChatBotService {
 
     private static final int MAX_RONDAS = 3;
 
+    private static final org.slf4j.Logger log =
+            org.slf4j.LoggerFactory.getLogger(ChatBotService.class);
+
     private static final String PROMPT_SISTEMA = """
             Eres el asistente interno del sistema de trámites de pago «Pagos Públicos».
-            Reglas estrictas:
-            1. Responde SIEMPRE en español, conciso: máximo 4 líneas salvo que te pidan detalle.
-            2. NUNCA inventes cifras, folios ni nombres: cada dato que reportes debe venir
-               de una herramienta ejecutada en ESTE turno.
-            3. Si la pregunta continúa la conversación, identifica el sujeto del contexto previo y VUELVE A LLAMAR
-               la herramienta correspondiente con esos datos (el nombre completo del proveedor,
-               el periodo, etc.). El historial te sirve para saber A QUIÉN referirte,
-               no para citar números de memoria.
-            4. Al reportar una póliza, prioriza: folio, neto a pagar y verificación contable.
+            Reglas:
+            1. Responde SIEMPRE en español, conciso (máximo 4 líneas salvo que pidan detalle).
+            2. NUNCA inventes cifras, folios ni nombres: cada dato proviene de una herramienta.
+            3. Si la pregunta se refiere a algo ya mencionado (el proveedor, la póliza, el periodo),
+               resuelve el referente con el historial y VUELVE A LLAMAR la herramienta con el dato completo.
+            4. Preguntas como «¿cuánto pagó?», «¿de cuánto es?», «¿cuánto se le va a pagar?»
+               sobre una póliza se responden SIEMPRE ejecutando datos_poliza y reportando
+               el neto a pagar — aunque el dato aparezca en la conversación previa.
             5. Si ninguna herramienta aplica, dilo y menciona qué sí puedes consultar
                (trámites por periodo, trámites sin póliza, datos de una póliza,
                proveedores no registrados).
+
+            Ejemplo de comportamiento correcto:
+            Usuario: "datos de la póliza del proveedor SH_0101 GO 309 1900773421 1900773424"
+            → ejecutas datos_poliza(nombre_proveedor="SH_0101 GO 309 1900773421 1900773424")
+            Usuario: "¿y cuánto pagó?"
+            → ejecutas OTRA VEZ datos_poliza(nombre_proveedor="SH_0101 GO 309 1900773421 1900773424")
+            → respondes: "Neto a pagar: $7,492.99"
             """;
 
     private final ChatBotClient client;
     private final CatalogoHerramientas catalogo;
+    private final ChatRegistroService registroService;   // ← CAMBIO 1: campo nuevo
 
-    public ChatBotService(ChatBotClient client, CatalogoHerramientas catalogo) {
+    public ChatBotService(ChatBotClient client,
+                          CatalogoHerramientas catalogo,
+                          ChatRegistroService registroService) {  // ← CAMBIO 1: constructor
         this.client = client;
         this.catalogo = catalogo;
+        this.registroService = registroService;
     }
 
-    private static final org.slf4j.Logger log =
-            org.slf4j.LoggerFactory.getLogger(ChatBotService.class);
-
-    public String conversar(String pregunta, List<Map<String, Object>> historial) {
-        log.info("Chatbot → historial recibido: {} mensajes", historial == null ? 0 : historial.size());
+    /** CAMBIO 2: tercer parámetro nombreUsuario */
+    public String conversar(String pregunta,
+                            List<Map<String, Object>> historial,
+                            String nombreUsuario) {
+        long inicio = System.currentTimeMillis();        // ← CAMBIO 3: medir duración
 
         List<Map<String, Object>> mensajes = new ArrayList<>();
         mensajes.add(Map.of("role", "system", "content", PROMPT_SISTEMA));
@@ -50,15 +63,20 @@ public class ChatBotService {
         }
         mensajes.add(Map.of("role", "user", "content", pregunta));
 
+        List<String> herramientasUsadas = new ArrayList<>();   // ← CAMBIO 3: acumulador
+
         for (int ronda = 0; ronda < MAX_RONDAS; ronda++) {
             RespuestaModelo respuesta = client.enviar(mensajes, catalogo.definiciones());
 
             if (!respuesta.hayLlamadas()) {
-                return respuesta.contenido();
+                String texto = respuesta.contenido();
+                registrar(inicio, nombreUsuario, pregunta, texto, herramientasUsadas);  // ← CAMBIO 3
+                return texto;
             }
 
             mensajes.add(respuesta.mensajeAsistente());
             for (ChatBotClient.LlamadaHerramienta llamada : respuesta.llamadas()) {
+                herramientasUsadas.add(llamada.nombre());      // ← CAMBIO 3: registrar uso
                 String resultado = catalogo.ejecutar(llamada.nombre(), llamada.argumentosJson());
                 mensajes.add(Map.of(
                         "role", "tool",
@@ -66,6 +84,21 @@ public class ChatBotService {
                         "content", resultado));
             }
         }
-        return "No pude completar la consulta en el número de pasos permitido. Intenta una pregunta más simple.";
+
+        String texto = "No pude completar la consulta en el número de pasos permitido. "
+                + "Intenta una pregunta más simple.";
+        registrar(inicio, nombreUsuario, pregunta, texto, herramientasUsadas);  // ← CAMBIO 3
+        return texto;
+    }
+
+    /** CAMBIO 3: método privado que delega en ChatRegistroService */
+    private void registrar(long inicio, String nombreUsuario, String pregunta,
+                           String respuesta, List<String> herramientasUsadas) {
+        registroService.registrar(
+                nombreUsuario,
+                pregunta,
+                respuesta,
+                herramientasUsadas.isEmpty() ? null : String.join(", ", herramientasUsadas),
+                System.currentTimeMillis() - inicio);
     }
 }

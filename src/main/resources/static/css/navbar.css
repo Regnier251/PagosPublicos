@@ -22,12 +22,12 @@
 .navbar__marca {
     font-weight: 700;
     font-size: 1.05rem;
-    color: #1e3a8a;
+    color: #0F2C59;
     text-decoration: none;
 }
-.navbar__marca:hover { text-decoration: none; color: #172d6e; }
+.navbar__marca:hover { text-decoration: none; color: #0A1F42; }
 .navbar__enlace { color: #64748b; font-weight: 500; }
-.navbar__enlace:hover { color: #1e3a8a; text-decoration: none; }
+.navbar__enlace:hover { color: #0F2C59; text-decoration: none; }
 
 /* ---------- Barra de pestañas del tercero (páginas anidadas) ---------- */
 .barra-tercero {
@@ -65,10 +65,10 @@
     font-size: 0.925rem;
     border-bottom: 2px solid transparent;
 }
-.barra-tercero__pestana:hover { color: #1e3a8a; text-decoration: none; }
+.barra-tercero__pestana:hover { color: #0F2C59; text-decoration: none; }
 .barra-tercero__pestana--activa {
-    color: #1e3a8a;
-    border-bottom-color: #1e3a8a;
+    color: #0F2C59;
+    border-bottom-color: #0F2C59;
     font-weight: 600;
 }
 

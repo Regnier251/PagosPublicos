@@ -16,8 +16,8 @@
     line-height: 1.2;
     cursor: pointer;
 }
-.boton--primario { background-color: #1e3a8a; color: #ffffff; }
-.boton--primario:hover { background-color: #172d6e; text-decoration: none; }
+.boton--primario { background-color: #0F2C59; color: #ffffff; }
+.boton--primario:hover { background-color: #0A1F42; text-decoration: none; }
 .boton--peligro { background-color: #b91c1c; color: #ffffff; }
 .boton--peligro:hover { filter: brightness(0.9); }
 .boton--secundario {
@@ -68,9 +68,9 @@
     background-color: #ffffff;
 }
 .campo input:focus, .campo select:focus, .campo textarea:focus {
-    outline: 2px solid #1e3a8a;
+    outline: 2px solid #0F2C59;
     outline-offset: 1px;
-    border-color: #1e3a8a;
+    border-color: #0F2C59;
 }
 
 .error-campo { display: block; margin-top: 0.25rem; font-size: 0.8rem; color: #b91c1c; }
@@ -88,7 +88,7 @@
 
 /* ---------- Alertas (mensajes flash) ---------- */
 .alerta { padding: 0.75rem 1rem; margin-bottom: 1rem; border-radius: 8px; font-weight: 500; }
-.alerta--exito { background-color: #f0fdf4; color: #15803d; border: 1px solid #15803d; }
+.alerta--exito { background-color: #F0FDFA; color: #0D9488; border: 1px solid #0D9488; }
 .alerta--error { background-color: #fef2f2; color: #b91c1c; border: 1px solid #b91c1c; }
 .alerta--advertencia { background-color: #fef3c7; color: #b45309; border: 1px solid #b45309; }
 
@@ -103,12 +103,12 @@
     letter-spacing: 0.03em;
 }
 .etiqueta--activo, .etiqueta--vigente, .etiqueta--aplicada {
-    background-color: #f0fdf4; color: #15803d;
+    background-color: #F0FDFA; color: #0D9488;
 }
 .etiqueta--inactivo, .etiqueta--inactiva, .etiqueta--borrador {
     background-color: #f1f5f9; color: #64748b;
 }
-.etiqueta--compensado { background-color: #e0e7ff; color: #1e3a8a; }
+.etiqueta--compensado { background-color: #E8EEF6; color: #0F2C59; }
 .etiqueta--cancelado  { background-color: #fef2f2; color: #b91c1c; }
 
 /* ---------- Tarjetas de resumen (ficha del tercero) ---------- */
@@ -128,7 +128,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 .resumen-tarjeta:hover {
-    border-color: #1e3a8a;
+    border-color: #0F2C59;
     transform: translateY(-3px);
     text-decoration: none;
 }
@@ -136,7 +136,7 @@
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: #1e3a8a;
+    color: #0F2C59;
 }
 .resumen-tarjeta__titulo {
     font-size: 0.85rem;
@@ -156,21 +156,21 @@
     text-align: right;
 }
 .tabla .input-celda:focus {
-    outline: 2px solid #1e3a8a;
-    border-color: #1e3a8a;
+    outline: 2px solid #0F2C59;
+    border-color: #0F2C59;
 }
 
 /* ---------- Título de sección dentro de formularios largos ---------- */
 .seccion-titulo {
     font-size: 1.05rem;
     margin: 1.75rem 0 0.75rem;
-    color: #1e3a8a;
+    color: #0F2C59;
 }
 
 /* ---------- Etiquetas de tipo de documento ---------- */
-.etiqueta--cxc { background-color: #e0e7ff; color: #1e3a8a; }
+.etiqueta--cxc { background-color: #E8EEF6; color: #0F2C59; }
 .etiqueta--cxp { background-color: #fef3c7; color: #b45309; }
 
 .etiqueta--recibido   { background-color: #f1f5f9; color: #64748b; }
-.etiqueta--verificado { background-color: #f0fdf4; color: #15803d; }
+.etiqueta--verificado { background-color: #F0FDFA; color: #0D9488; }
 .etiqueta--error      { background-color: #fef2f2; color: #b91c1c; }

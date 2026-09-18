@@ -16,7 +16,7 @@ body {
     min-height: 100vh;
 }
 
-a { color: #1e3a8a; text-decoration: none; }
+a { color: #0F2C59; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* Estructura de páginas internas (no aplica al home) */

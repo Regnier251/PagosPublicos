@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon: 'error',
                 title: 'Archivo no compatible',
                 text: '"' + archivo.name + '" no es un archivo .zip',
-                confirmButtonColor: '#1e3a8a',
+                confirmButtonColor: '#0F2C59',
             });
             return;
         }

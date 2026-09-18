@@ -23,8 +23,8 @@
 }
 
 .home-badge {
-    background-color: #e0e7ff;
-    color: #1e3a8a;
+    background-color: #E8EEF6;
+    color: #0F2C59;
     font-size: 0.8rem;
     font-weight: 600;
     padding: 0.35rem 0.8rem;
@@ -49,8 +49,8 @@
 }
 
 /* Controles de la librería (colores del sitio) */
-.swiper-button-next, .swiper-button-prev { color: #1e3a8a !important; }
-.swiper-pagination-bullet-active { background: #1e3a8a !important; }
+.swiper-button-next, .swiper-button-prev { color: #0F2C59 !important; }
+.swiper-pagination-bullet-active { background: #0F2C59 !important; }
 
 /* ---------- Tarjeta de módulo ---------- */
 .home-tarjeta {
@@ -69,9 +69,9 @@
 }
 
 .home-tarjeta:hover {
-    border-color: #1e3a8a;
+    border-color: #0F2C59;
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px -5px rgba(30, 58, 138, 0.12);
+    box-shadow: 0 10px 20px -5px rgba(15, 44, 89, 0.12);
     text-decoration: none;
 }
 
@@ -90,7 +90,7 @@
 
 .home-tarjeta__contenido h3 {
     font-size: 1.15rem;
-    color: #1e3a8a;
+    color: #0F2C59;
     margin: 0.75rem 0 0.25rem 0;
 }
 

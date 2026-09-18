@@ -40,8 +40,8 @@
 
 .cruce-panel__mensaje { margin-left: auto; font-weight: 600; }
 
-.cruce-panel--ok { border-color: #15803d; background-color: #f0fdf4; }
-.cruce-panel--ok .cruce-panel__mensaje { color: #15803d; }
+.cruce-panel--ok { border-color: #0D9488; background-color: #F0FDFA; }
+.cruce-panel--ok .cruce-panel__mensaje { color: #0D9488; }
 
 .cruce-panel--error { border-color: #b91c1c; background-color: #fef2f2; }
 .cruce-panel--error .cruce-panel__mensaje { color: #b91c1c; }
